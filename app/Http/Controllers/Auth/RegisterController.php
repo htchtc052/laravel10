@@ -74,6 +74,7 @@ class RegisterController extends Controller
             'agree.required' => 'Please agree to the terms of service'
         ];
         
+       
         return Validator::make($data, $rules, $messages);
     }
 
