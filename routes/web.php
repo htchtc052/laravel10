@@ -16,17 +16,11 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+    
+Route::get('/home', ['middleware' => ['isVerified'], 'uses' => 'HomeController@index'])->name('home');
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Activate
+Route::get('activate', ['middleware'=> ['auth'], 'uses' => 'ActivateController@showActivatePage'])->name('activate');
+Route::get('activate/send', ['middleware'=> ['auth'], 'uses' => 'ActivateController@sendActivate'])->name('activate_send');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
