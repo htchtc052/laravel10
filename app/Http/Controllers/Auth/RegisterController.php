@@ -46,7 +46,7 @@ class RegisterController extends Controller
     {
         // Based on the workflow you need, you may update and customize the following lines.
 
-        $this->middleware('guest', ['except' => ['getVerification', 'getVerificationError']]);
+        //$this->middleware('guest', ['except' => ['getVerification', 'getVerificationError']]);
     }
 
     /**
