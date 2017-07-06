@@ -103,14 +103,11 @@ class LoginController extends Controller
         ];
         
         $messages = [
-            'email.required' => 'Please enter an email address',
-            'email.email' => 'Email is invalid. 111',
+            'email.required' => 'Please enter an email',
+            'email.email' => 'Please enter a valid email address',
             'email.exists' => 'This e-mail is not registered. ',
             'password.required' => 'Please enter a password',
         ];
-        
-        
-        //dd($data, $rules, $messages, Validator::make($data, $rules, $messages)->errors());
         
         return Validator::make($data, $rules, $messages);
     }

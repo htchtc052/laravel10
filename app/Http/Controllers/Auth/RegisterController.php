@@ -66,7 +66,7 @@ class RegisterController extends Controller
         
         $messages = [
             'email.required' => 'Please enter an email address',
-            'email.email' => 'Please enter an email address',
+            'email.email' => 'Please enter a valid email address',
             'email.unique' => 'This e-mail is already taken. ',
             'name.required' => 'Please enter your name',        
             'password.required' => 'Please enter a password',
