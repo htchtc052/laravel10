@@ -27,10 +27,10 @@ class ResetPasswordController extends Controller
 
     protected $redirectTo = '/home';
     
-    public function showResetForm(Request $request)
+    public function showResetForm(Request $request, $token)
     {
         return view('auth.password_change')->with(
-            ['token' => $request->get('token'), 'user_id' => $request->get('user_id'), 'title' => 'Set password', 'pageclass' => 'setpass']
+            ['token' => $token, 'email' => $request->get('email'), 'title' => 'Set password', 'pageclass' => 'setpass']
         );
     }
     
@@ -66,17 +66,17 @@ class ResetPasswordController extends Controller
     
     protected function credentials(Request $request)
     {
-        $email = \DB::table('users')->where('id', '=', $request->get('user_id'))->value('email');
+        //$email = \DB::table('users')->where('id', '=', $request->get('user_id'))->value('email');
         
         $credentials_arr = array(
-            "email" => $email, 
+            "email" => $request->get('email'), 
             "password" => $request->get('password'), 
             "password_confirmation" => $request->get('password_confirmation'), 
             "token" => $request->get('token')
         );
-        dd($credentials_arr, $request->only(
-            'email', 'password', 'password_confirmation', 'token'
-        ));
+        //dd($credentials_arr, $request->only(
+         //   'email', 'password', 'password_confirmation', 'token'
+        //));
         
         return $credentials_arr;
     }
