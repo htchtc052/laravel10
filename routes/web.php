@@ -11,13 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 //Auth::routes();
     
-Route::get('/home', ['middleware' => ['isVerified'], 'uses' => 'HomeController@index'])->name('home');
+Route::get('/', ['uses' => 'IndexController@index'])->name('index_page');
+
 
 // Activate
 Route::get('activate', ['middleware'=> ['auth'], 'uses' => 'ActivateController@showActivatePage'])->name('activate');
@@ -45,3 +43,5 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.set');
 
 
+//lk routes
+Route::get('/home', ['middleware' => ['isVerified'], 'uses' => 'HomeController@index'])->name('home');
