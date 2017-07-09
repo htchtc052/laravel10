@@ -13,7 +13,7 @@
         <script src="{{ asset('/js/jquery.js') }}" type="text/javascript" charset="utf-8"></script>    
         <script src="{{ asset('/js/jquery.form.js') }}" type="text/javascript" charset="utf-8"></script>
         <script src="/js/bootstrap.js"></script>
-        <script src="/js/nofiles.js"></script>
+        <script src="/js/global_site.js"></script>
              <script>
             $(document).ready(function() {
               $(document).on('focus', ':input', function() {
@@ -42,14 +42,14 @@
                         </div>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="/profile/">Profile</a></li>
-                    <li><a href="/profile/update/">Settings</a></li>
-                    <li><a href="/profile/upgrade">Upgrade</a></li>
+                    <li><a href="/home">Profile</a></li>
+                    <li><a href="/home/update">Settings</a></li>
+                    <li><a href="/home/upgrade">Upgrade</a></li>
                     <li><a href="/logout">Sing Out</a></li>
                 </ul>
             </div>
             @else
-                @if($pageclass != "login")
+                @if ($login_area == "index" || $login_area == "register")
                     <div class="btn btn-singin btn-success outline" data-toggle="modal" data-target="#SingInModal">Sign in</div>
                 @endif
             @endif
@@ -92,8 +92,8 @@
             </div>
         </div>  
     </footer>
-    @if ($pageclass != "login")
-    <script src="/js/loginmodal.js"></script>
+    @if ($login_area == "index" || $login_area == "register")
+   <script src="/js/login_modal.js"></script>
    <div class="modal fade" tabindex="-1" role="dialog"  id="SingInModal" >
      <div class="modal-dialog modal-singin">
       <div class="modal-content">
@@ -134,7 +134,7 @@
                </div>
                <div class="col-xs-4 text-right">
                         <button type="submit" class="btn btn-success outline" id="loginmodal_sbtn">Sign in</button>    
-                    </div>
+                </div>
             </div>
          </div>
          </form>

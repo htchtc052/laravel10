@@ -1,4 +1,4 @@
-@extends('mastermain')
+@extends('master_main')
 
 @section('cont')
 <h1 class="indent-lg">Government Data Request Principles</h1>

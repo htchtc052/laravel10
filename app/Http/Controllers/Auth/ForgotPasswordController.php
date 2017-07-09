@@ -27,8 +27,9 @@ class ForgotPasswordController extends Controller
     public function showLinkRequestForm()
     {
         $data = [
-        'title' => 'Forgot password', 
-        'pageclass' => 'forgot_password'
+            'title' => 'Forgot password', 
+            'pageclass' => 'forgot_password',
+            'login_area' => 'password',   
         ];
         
         return view('auth.password_reset', $data);

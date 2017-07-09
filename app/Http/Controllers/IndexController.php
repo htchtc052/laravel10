@@ -10,8 +10,9 @@ class IndexController extends Controller
     public function showIndexPage()
     {
         $data = [
-        'title' => 'Main', 
-        'pageclass' => 'index',
+            'title' => 'Main', 
+            'pageclass' => 'index',
+            'login_area' => 'index',
         ];
         
         return view("indexpage", $data);
@@ -21,9 +22,9 @@ class IndexController extends Controller
     public function plans(Request $request)
     {
         $data = [
-        'title' => 'Plans', 
-        'pageclass' => 'plans',
-        
+            'title' => 'Plans', 
+            'pageclass' => 'plans',
+            'login_area' => 'footer_pages',
         ];
         
         
@@ -36,6 +37,7 @@ class IndexController extends Controller
         $data = [
         'title' => 'Security', 
         'pageclass' => 'security',
+        'login_area' => 'footer_pages',
         
         ];
         
@@ -50,6 +52,7 @@ class IndexController extends Controller
         $data = [
         'title' => 'About', 
         'pageclass' => 'about',
+        'login_area' => 'footer_pages',
         
         ];
         
@@ -64,6 +67,7 @@ class IndexController extends Controller
         $data = [
         'title' => 'Contact', 
         'pageclass' => 'contact',
+        'login_area' => 'footer_pages',
         
         ];
         
@@ -75,6 +79,7 @@ class IndexController extends Controller
         $data = [
         'title' => 'Help', 
         'pageclass' => 'help',
+        'login_area' => 'footer_pages',
         ];
         return view("help.help", $data);
     }
@@ -84,6 +89,7 @@ class IndexController extends Controller
         $data = [
         'title' => 'Help', 
         'pageclass' => 'help',
+        'login_area' => 'footer_pages',
         ];
         return view("help.payments_and_billing", $data);
     }    
@@ -93,6 +99,7 @@ class IndexController extends Controller
         $data = [
         'title' => 'Help', 
         'pageclass' => 'help',
+        'login_area' => 'footer_pages',
         ];
         return view("help.security_and_privacy", $data);
     }
@@ -102,6 +109,7 @@ class IndexController extends Controller
         $data = [
         'title' => 'Help', 
         'pageclass' => 'help',
+        'login_area' => 'footer_pages',
         ];
         return view("help.syncing_and_uploads", $data);
     }    
@@ -111,6 +119,7 @@ class IndexController extends Controller
         $data = [
         'title' => 'Help', 
         'pageclass' => 'help',
+        'login_area' => 'footer_pages',
         ];
         return view("help.log_in_help", $data);
     }    
@@ -120,6 +129,7 @@ class IndexController extends Controller
         $data = [
         'title' => 'Help', 
         'pageclass' => 'help',
+        'login_area' => 'footer_pages',
         ];
         return view("help.manage_account", $data);
     }    
@@ -129,6 +139,7 @@ class IndexController extends Controller
         $data = [
         'title' => 'Help', 
         'pageclass' => 'help',
+        'login_area' => 'footer_pages',
         ];
         return view("help.space_and_storage", $data);
     }        
@@ -138,6 +149,7 @@ class IndexController extends Controller
         $data = [
         'title' => 'Help', 
         'pageclass' => 'help',
+        'login_area' => 'footer_pages',
         ];
         return view("help.photos_and_videos", $data);
     }    
@@ -150,6 +162,7 @@ class IndexController extends Controller
         $data = [
         'title' => 'Privacy', 
         'pageclass' => 'privacy',
+        'login_area' => 'footer_pages',
         
         ];
         
@@ -162,6 +175,7 @@ class IndexController extends Controller
         $data = [
         'title' => 'Principles', 
         'pageclass' => 'principles',
+        'login_area' => 'footer_pages',
         ];
         return view("infopages.principles", $data);
     }

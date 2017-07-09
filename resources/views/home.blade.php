@@ -2,8 +2,8 @@
 
 @section('cont')
     
-@if(Session::has('message'))
-    {{Session::get('message')}}
+@if(Session::has('status'))
+    {{Session::get('status')}}
 @endif
 
     <div class="row">

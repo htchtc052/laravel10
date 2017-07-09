@@ -2,7 +2,7 @@
    
 @section('cont')
    <h2>Activation</h2>
-   <p class="indent-lg">Activation code send to your email.</p>
+   <p class="indent-lg">Activation code send to your email {{ Auth::user()->email }}.</p>
    <a class="btn btn-success outline" href="{{ route('activate_send') }}">Resend this code</a> 
    @if (Session::has('message'))
        <script> 

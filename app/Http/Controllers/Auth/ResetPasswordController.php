@@ -29,8 +29,13 @@ class ResetPasswordController extends Controller
     
     public function showResetForm(Request $request, $token)
     {
-        return view('auth.password_change')->with(
-            ['token' => $token, 'email' => $request->get('email'), 'title' => 'Set password', 'pageclass' => 'setpass']
+        return view('auth.password_change')->with([
+                'token' => $token,
+                'email' => $request->get('email'),
+                'title' => 'Set password',
+                'pageclass' => 'setpass',
+                'login_area' => 'password'
+            ]
         );
     }
     
@@ -93,7 +98,7 @@ class ResetPasswordController extends Controller
     
     protected function sendResetResponse($response)
     {
-        return redirect()->back()->with('status', trans($response));
+        return redirect()->route('home')->with('status', trans($response));
     }
     
     protected function sendResetFailedResponse(Request $request, $response)

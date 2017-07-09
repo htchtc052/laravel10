@@ -17,8 +17,9 @@ class ActivateController extends Controller
     {
        
         $data = [
-            'title' => 'Activation',  
+                'title' => 'Activation',  
                 'pageclass' => 'activate',
+                'login_area' => 'activate',  
             ];  
         
          

@@ -1,5 +1,4 @@
-@extends('mastermain')
-
+@extends('master_main')
 @section('cont')
 
 <div class="breadcrumbs"><a href="/">Home</a></div>

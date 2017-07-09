@@ -15,13 +15,7 @@
                         <div class="alert alert-danger">{{ $error }}</div>
                         @endforeach
                 @endif
-                
-                {{--
-                @if (strlen($errors->first('password')))
-                    <div class="alert alert-error">
-                        {{ $errors->first('password') }}
-                    </div>
-                @endif --}}
+            
             
             <form  action="{{ route('password.set') }}"  method="POST" id="setpass_form"  class="indent-lg">
                 {{ csrf_field() }}

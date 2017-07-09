@@ -98,6 +98,7 @@ class RegisterController extends Controller
         $data = [
             'title' => 'Registration', 
             'pageclass' => 'signup',
+            'login_area' => 'register', 
         ];  
         
         return view('auth.register', $data);

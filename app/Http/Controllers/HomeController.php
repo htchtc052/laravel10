@@ -18,6 +18,7 @@ class HomeController extends Controller
         $data = [
         'title' => 'Profile', 
         'pageclass' => 'profile_index',
+        'login_area' => 'profile',
         ];  
         
         return view('home', $data);
