@@ -43,14 +43,12 @@ $ (function(){
 
             },
             success: function (json) {
-                //console.log(json);
                 //$(".form_all_errors").hide();
                 $(".form_errors").hide();
-                $("#msg").html("Изменения сохранены").show();
+               
                 setTimeout(function() {
-                   location.href = "/home"; 
-                    
-                }, 5);
+                   location.href = json.redirect_to; 
+                }, 100);
             }
         });
     return false;

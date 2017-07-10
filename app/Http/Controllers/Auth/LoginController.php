@@ -90,15 +90,15 @@ class LoginController extends Controller
     protected function sendLoginResponse(Request $request)
     {
         $request->session()->regenerate();
-
         
         $this->clearLoginAttempts($request);
-
-        dd($this->authenticated($request, $this->guard()->user())
-                ?: redirect()->intended($this->redirectPath()));
         
-        return $this->authenticated($request, $this->guard()->user())
-                ?: redirect()->intended($this->redirectPath());
+        if ($request->expectsJson()) {
+            return Response::json(array('success' => true, 'redirect_to' => $this->redirectPath()), 200);
+        } else {
+            return $this->authenticated($request, $this->guard()->user())
+                    ?: redirect()->intended($this->redirectPath());
+        }
     }
     
     /**

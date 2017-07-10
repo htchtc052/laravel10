@@ -28,33 +28,27 @@ class RegisterController extends Controller
     use RegistersUsers;
     
     use VerifiesUsers;
-
-    /**
-    * Where to redirect users after registration.
-    *
-    * @var string
-    */
+    
     protected $redirectTo = '/activate';
-    //protected $redirectIfVerified = '/home';
-
-    /**
-    * Create a new controller instance.
-    *
-    * @return void
-    */
-    public function __construct()
+    
+    public function showRegistrationForm()
     {
-        // Based on the workflow you need, you may update and customize the following lines.
-
-        //$this->middleware('guest', ['except' => ['getVerification', 'getVerificationError']]);
+        $data = [
+            'title' => 'Registration', 
+            'pageclass' => 'signup',
+            'login_area' => 'register', 
+        ];  
+        
+        return view('auth.register', $data);
     }
-
+    
     /**
     * Get a validator for an incoming registration request.
     *
     * @param  array  $data
     * @return \Illuminate\Contracts\Validation\Validator
     */
+    
     protected function validator(array $data)
     {
         $rules = [
@@ -93,16 +87,7 @@ class RegisterController extends Controller
         ]);
     }
     
-    public function showRegistrationForm()
-    {
-        $data = [
-            'title' => 'Registration', 
-            'pageclass' => 'signup',
-            'login_area' => 'register', 
-        ];  
-        
-        return view('auth.register', $data);
-    }
+
     
     /**
     * Handle a registration request for the application.

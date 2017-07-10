@@ -43,12 +43,13 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.set');
 
 
-//lk routes
+//home routes
 Route::get('/home', ['middleware' => ['auth', 'isVerified'], 'uses' => 'HomeController@showHomeIndex'])->name('home');
-
+Route::get('/home/settings', ['middleware' => ['auth', 'isVerified'], 'uses' => 'HomeController@showSettingsPage'])->name('home.settings');
+Route::get('/home/update', ['middleware' => ['auth', 'isVerified'], 'uses' => 'HomeController@showUpdateForm'])->name('home.update');
+Route::post('/home/update_save', ['middleware' => ['auth', 'isVerified'], 'uses' => 'HomeController@postUpdate'])->name('home.update_save');
 
 //infopages routes
-
 Route::get('/plans', ['uses'=>'IndexController@plans']);
 Route::get('/security', ['uses'=>'IndexController@security']);
 Route::get('/about', ['uses'=>'IndexController@about']);
