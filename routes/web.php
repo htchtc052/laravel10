@@ -44,10 +44,13 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 
 
 //home routes
-Route::get('/home', ['middleware' => ['auth', 'isVerified'], 'uses' => 'HomeController@showHomeIndex'])->name('home');
-Route::get('/home/settings', ['middleware' => ['auth', 'isVerified'], 'uses' => 'HomeController@showSettingsPage'])->name('home.settings');
-Route::get('/home/update', ['middleware' => ['auth', 'isVerified'], 'uses' => 'HomeController@showUpdateForm'])->name('home.update');
-Route::post('/home/update_save', ['middleware' => ['auth', 'isVerified'], 'uses' => 'HomeController@postUpdate'])->name('home.update_save');
+Route::get('home', ['middleware' => ['auth', 'isVerified'], 'uses' => 'HomeController@showHomeIndex'])->name('home');
+Route::get('home/settings', ['middleware' => ['auth', 'isVerified'], 'uses' => 'HomeController@showSettingsPage'])->name('home.settings');
+Route::get('home/update', ['middleware' => ['auth', 'isVerified'], 'uses' => 'HomeController@showUpdateForm'])->name('home.update');
+Route::post('home/update_save', ['middleware' => ['auth', 'isVerified'], 'uses' => 'HomeController@postUpdate'])->name('home.update_save');
+Route::get('home/password/change', ['middleware' => ['auth', 'isVerified'], 'uses' => 'changePasswordController@showPasswordChangeForm'])->name('home.password.change');
+Route::post('home/password/change_save', ['middleware' => ['auth', 'isVerified'], 'uses' =>'changePasswordController@writePasswordChange'])->name('home.password.change_save');
+
 
 //infopages routes
 Route::get('/plans', ['uses'=>'IndexController@plans']);

@@ -42,10 +42,10 @@
                         </div>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="/home">Profile</a></li>
-                    <li><a href="/home/update">Settings</a></li>
-                    <li><a href="/home/upgrade">Upgrade</a></li>
-                    <li><a href="/logout">Sing Out</a></li>
+                    <li><a href="{{ route('home') }}">Profile</a></li>
+                    <li><a href="{{ route('home.settings') }}">Settings</a></li>
+                    <li><a href="#">Upgrade</a></li>
+                    <li><a href="{{ route('logout') }}">Sing Out</a></li>
                 </ul>
             </div>
             @else
@@ -130,7 +130,7 @@
          <div class="modal-footer">
             <div class="row">
                <div class="col-xs-8 checkbox">
-                  <a href="/recall">Forgotten your password?</a>
+                  <a href="{{ route('password.request') }}">Forgotten your password?</a>
                </div>
                <div class="col-xs-4 text-right">
                         <button type="submit" class="btn btn-success outline" id="loginmodal_sbtn">Sign in</button>    

@@ -168,6 +168,11 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
+        
+        /*
+        * Custom providers
+        */
+        App\Providers\CheckPasswordValidator::class,
 
         /*
          * Application Service Providers...

@@ -220,8 +220,8 @@
                         <h4 class="indent">NoFiles</h4>
                         <h5 class="setting-item-title">Password</h5>
                         <ul class="list-unstyled indent-lg">
-                            <li><a href="/profile/account/password">Change password</a></li>
-                            {{-- <li><a href="/recall">Forgotten password?</a></li> --}}
+                            <li><a href="{{ route('home.password.change') }}">Change password</a></li>
+                            <li><a href="{{ route('password.request') }}">Forgotten password?</a></li> 
                         </ul>
                    </div>
                 </div>
