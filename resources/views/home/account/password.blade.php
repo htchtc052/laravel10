@@ -3,23 +3,7 @@
 @section('cont')
      <h2>Profile</h2> 
         <div class="indent-lg">Change password for your account.</div>
-        {{--
-                @if (session('status'))
-                    <div class="alert alert-success">
-                        {{ session('status') }}
-                        <br> <a href="/home">To Profile</a>
-                    </div>
-                @endif
-                @if (count($errors) > 0)
-                        @foreach ($errors->all() as $error)
-                        <div class="alert alert-danger">{{ $error }}</div>
-                        @endforeach
-                @endif
-            
-                 --}}
-                 
-                 
-            <form  action="{{ route('home.password.change_save') }}"  method="POST" id="setpass_form"  class="indent-lg">
+            <form  action="{{ route('home.account.password_save') }}"  method="POST" id="setpass_form"  class="indent-lg">
                 {{ csrf_field() }}
                 <div class="row">
                    <div class="col-xs-4">
@@ -50,5 +34,4 @@
                    </div>
                 </div>
              </form>
-    
 @endsection 

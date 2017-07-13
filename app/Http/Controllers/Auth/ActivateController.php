@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\User;
 use DB;
@@ -13,16 +13,14 @@ use Jrean\UserVerification\Facades\UserVerification;
 class ActivateController extends Controller
 {
     
-    public function showActivatePage()
+    public function showPage()
     {
        
         $data = [
                 'title' => 'Activation',  
                 'pageclass' => 'activate',
-                'login_area' => 'activate',  
             ];  
         
-         
         return view('auth.activate', $data);
         
     }

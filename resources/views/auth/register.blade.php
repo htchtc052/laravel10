@@ -5,7 +5,7 @@
      <div class="row">
         <div class="col-xs-4 col-xs-offset-4">
                     <h2 class="text-center">Get started now</h2>
-                    <form class="form-signup" method="POST" action="{{ route('register_post') }}">
+                    <form class="form-signup" method="POST" action="{{ route('register_save') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group">

@@ -13,7 +13,7 @@
             {{--
             <div id="form_errors" class="form_all_errors" style="display:none;"></div>
             --}}
-            <form  method="POST" action="{{ route('home.update_save') }}">
+            <form  method="POST" action="{{ route('home.account.update_save') }}">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="row">
                       <div class="form-group col-xs-4">

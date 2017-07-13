@@ -43,13 +43,13 @@
                     </li>
                     <li class="divider"></li>
                     <li><a href="{{ route('home') }}">Profile</a></li>
-                    <li><a href="{{ route('home.settings') }}">Settings</a></li>
+                    <li><a href="{{ route('home.account') }}">Settings</a></li>
                     <li><a href="#">Upgrade</a></li>
                     <li><a href="{{ route('logout') }}">Sing Out</a></li>
                 </ul>
             </div>
             @else
-                @if ($login_area == "index" || $login_area == "register")
+                @if (isset($need_login_modal) && $need_login_modal)
                     <div class="btn btn-singin btn-success outline" data-toggle="modal" data-target="#SingInModal">Sign in</div>
                 @endif
             @endif
@@ -92,7 +92,7 @@
             </div>
         </div>  
     </footer>
-    @if ($login_area == "index" || $login_area == "register")
+    @if (isset($need_login_modal) && $need_login_modal)
    <script src="/js/login_modal.js"></script>
    <div class="modal fade" tabindex="-1" role="dialog"  id="SingInModal" >
      <div class="modal-dialog modal-singin">

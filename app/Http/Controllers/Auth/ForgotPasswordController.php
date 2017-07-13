@@ -11,31 +11,20 @@ use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset emails and
-    | includes a trait which assists in sending these notifications from
-    | your application to your users. Feel free to explore this trait.
-    |
-    */
 
     use SendsPasswordResetEmails;
     
-    public function showLinkRequestForm()
+    public function showForm()
     {
         $data = [
             'title' => 'Forgot password', 
             'pageclass' => 'forgot_password',
-            'login_area' => 'password',   
         ];
         
         return view('auth.password_reset', $data);
     }
     
-    public function sendResetLinkEmail(Request $request)
+    public function saveForm(Request $request)
     {
         $this->sendResetLinkValidator($request::all())->validate();
         

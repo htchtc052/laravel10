@@ -5,7 +5,6 @@
 @if(Session::has('status'))
     {{Session::get('status')}}
 @endif
-
     <div class="row">
         <div class="col-xs-3 left-box">
             <ul class="nav nav-pills nav-stacked">
@@ -115,5 +114,4 @@
             });
         });
 </script>
-
 @endsection

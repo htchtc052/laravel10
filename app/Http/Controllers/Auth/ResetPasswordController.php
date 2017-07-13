@@ -12,34 +12,23 @@ use Illuminate\Support\Facades\Auth;
 
 class ResetPasswordController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset requests
-    | and uses a simple trait to include this behavior. You're free to
-    | explore this trait and override any methods you wish to tweak.
-    |
-    */
 
     use ResetsPasswords;
 
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/home';
     
-    public function showResetForm(Request $request, $token)
+    public function showForm(Request $request, $token)
     {
         return view('auth.password_change')->with([
                 'token' => $token,
                 'email' => $request->get('email'),
                 'title' => 'Set password',
                 'pageclass' => 'setpass',
-                'login_area' => 'password'
             ]
         );
     }
     
-    public function reset(Request $request)
+    public function saveForm(Request $request)
     {
         $rules = [
             'password' => 'required|confirmed|min:6',
@@ -71,18 +60,12 @@ class ResetPasswordController extends Controller
     
     protected function credentials(Request $request)
     {
-        //$email = \DB::table('users')->where('id', '=', $request->get('user_id'))->value('email');
-        
         $credentials_arr = array(
             "email" => $request->get('email'), 
             "password" => $request->get('password'), 
             "password_confirmation" => $request->get('password_confirmation'), 
             "token" => $request->get('token')
         );
-        //dd($credentials_arr, $request->only(
-         //   'email', 'password', 'password_confirmation', 'token'
-        //));
-        
         return $credentials_arr;
     }
     
@@ -103,8 +86,6 @@ class ResetPasswordController extends Controller
     
     protected function sendResetFailedResponse(Request $request, $response)
     {
-        
-        
         return redirect()->back()->withErrors(['email' => trans($response)]);
     }
     

@@ -16,10 +16,11 @@
             <div id="profile" class="tab-pane active">
                 <div class="row tab-pane-inner">
                     <div class="col-xs-12 indent-sm">
-                        <h4>{{Auth::user()->name}} <small><a href="/home/update">Change</a></small></h4> 
+                        <h4>{{Auth::user()->name}} <small><a href="{{ route('home.account.update') }}">Change</a></small></h4> 
                         @if(!isset($subscription))
                         <h5 class="setting-item-title upgrade-pop">NoFiles Basic 
-                            <a href="#" data-trigger="focus" data-html="true" data-container=".upgrade-pop" data-toggle="popover" data-placement="right" data-content="You are using NoFiles Basic. <a href='/profile/upgradepaytureprepare'>Upgrade your account</a>"><span class="fa fa-question-circle"></span></a>
+                            <a href="#" data-trigger="focus" data-html="true" data-container=".upgrade-pop" data-toggle="popover" data-placement="right" 
+                            data-content="You are using NoFiles Basic. <a href='#'>Upgrade your account</a>"><span class="fa fa-question-circle"></span></a>
                         </h5>
                       @elseif($subscription->type==1)
                           <h5 class="setting-item-title upgrade-pop">NoFiles Silver
@@ -34,9 +35,10 @@
                     <div class="col-xs-6">
                         <h5 class="setting-item-title">Personal email</h5>
                         <p>{{Auth::user()->email}}</p>
-                        <a href="/profile/account/email">Change</a>
+                        <a href="{{ route('home.account.email') }}">Change</a>
                     </div>
                 </div>
+                {{--
                 <hr class="featurette-divider">
                 @if(!isset($subscription))
                 <form class="form-signup" action="#" method="POST" id="account_addsubscription_form">
@@ -135,8 +137,6 @@
                                          <p>${{$subscription->renew_price}}/minute</p>
                                         @endif
                                     </td>
-                                    <td>   
-                                      {{-- {{$subscription->renew_dt->toFormattedDateString()}} --}}
                                     @if(isset($ajusting_payment))
                                            <div class="indent-xs"  id="subscription_not_canceled"  style="@if(!$subscription->not_canceled) display:none;@endif">
                                                     <div class="indent-xs">
@@ -175,7 +175,7 @@
                     </div>
                 </div>                       
                 @endif
-
+                --}}
                <hr class="featurette-divider">
                <div class="row tab-pane-inner">
                   <div class="col-xs-12">
@@ -220,7 +220,7 @@
                         <h4 class="indent">NoFiles</h4>
                         <h5 class="setting-item-title">Password</h5>
                         <ul class="list-unstyled indent-lg">
-                            <li><a href="{{ route('home.password.change') }}">Change password</a></li>
+                            <li><a href="{{ route('home.account.password') }}">Change password</a></li>
                             <li><a href="{{ route('password.request') }}">Forgotten password?</a></li> 
                         </ul>
                    </div>

@@ -1,34 +1,31 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Home\Account;
 
-use Illuminate\Foundation\Auth\ResetsPasswords;
+
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 
-class changePasswordController extends Controller
+class PasswordController extends Controller
 {
-    //
     use ResetsPasswords;
     
-    //protected $redirectTo = "/";
-    
-    public function showPasswordChangeForm(Request $request)
+    public function showForm(Request $request)
     {
-        return view('home.password_change')->with([
-                'title' => 'Profile change password',
-                'pageclass' => 'setpass',
-                'login_area' => 'profile'
+        return view('home.account.password')->with([
+                'title' => 'Change password',
+                'pageclass' => 'home_account_password',
             ]
         );
     }
     
-    public function writePasswordChange(Request $request)
+    public function saveForm(Request $request)
     {
-        
         $user = Auth::user();
         
         $rules = [
@@ -44,15 +41,13 @@ class changePasswordController extends Controller
             'password.confirmed' => 'New Password and Confirm Password should be same',
         ];
         
-        
         Validator::make($request->all(), $rules, $messages)->validate();
         
         $this->resetPassword($user, $request->password);
-    
+        
         return redirect()->route('home')->with('status', "Password changed");
     }
-   
-  
+    
     protected function resetPassword($user, $password)
     {
         $user->forceFill([
@@ -60,5 +55,4 @@ class changePasswordController extends Controller
             'remember_token' => Str::random(60),
         ])->save();
     }
-    
 }

@@ -12,7 +12,7 @@ class IndexController extends Controller
         $data = [
             'title' => 'Main', 
             'pageclass' => 'index',
-            'login_area' => 'index',
+            'need_login_modal' => true,
         ];
         
         return view("indexpage", $data);

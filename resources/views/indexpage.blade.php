@@ -9,7 +9,7 @@
             <p>Get to all of your files from anywhere, on any device, and share them with anyone.</p>
          </div>
         <div class="col-xs-5 col-xs-offset-2">
-                <form class="form-signup" action="{{ route('register_post') }}" method="POST" id="signup_form">
+                <form class="form-signup" action="{{ route('register_save') }}" method="POST" id="signup_form">
                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
                      <div class="form-group">
                         <label class="sr-only" for="email">Full name</label>

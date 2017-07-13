@@ -14,40 +14,41 @@ use Jrean\UserVerification\Facades\UserVerification;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
+    
     use RegistersUsers;
     
     use VerifiesUsers;
     
-    protected $redirectTo = '/activate';
     
-    public function showRegistrationForm()
+    
+    public function showForm()
     {
         $data = [
             'title' => 'Registration', 
-            'pageclass' => 'signup',
-            'login_area' => 'register', 
+            'pageclass' => 'register',
+            'need_login_modal' => true, 
         ];  
         
         return view('auth.register', $data);
     }
-    
-    /**
-    * Get a validator for an incoming registration request.
-    *
-    * @param  array  $data
-    * @return \Illuminate\Contracts\Validation\Validator
-    */
+
+    public function saveForm(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        $user = $this->create($request->all());
+
+        event(new Registered($user));
+
+        $this->guard()->login($user);
+
+        UserVerification::generate($user);
+
+        UserVerification::send($user, 'Nofiles Activation');
+
+        return $this->registered($request, $user)
+                        ?: redirect()->route('activate');
+    }
     
     protected function validator(array $data)
     {
@@ -72,12 +73,6 @@ class RegisterController extends Controller
         return Validator::make($data, $rules, $messages);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
     protected function create(array $data)
     {
         return User::create([
@@ -87,30 +82,4 @@ class RegisterController extends Controller
         ]);
     }
     
-
-    
-    /**
-    * Handle a registration request for the application.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    */
-    public function register(Request $request)
-    {
-        $this->validator($request->all())->validate();
-
-        $user = $this->create($request->all());
-
-        event(new Registered($user));
-
-        $this->guard()->login($user);
-
-        UserVerification::generate($user);
-
-        UserVerification::send($user, 'Nofiles Activation');
-
-        return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
-    }
-
 }

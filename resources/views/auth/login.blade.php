@@ -13,7 +13,7 @@
             @endif
             <div class="col-xs-4 col-xs-offset-4">
                 <h2 class="text-center">Authorization</h2>
-                <form  class="form-signin"  method="POST" action="{{ route('login_post') }}">
+                <form  class="form-signin"  method="POST" action="{{ route('login_save') }}">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="email" class="sr-only">E-Mail Address</label>
