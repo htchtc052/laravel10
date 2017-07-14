@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\ActivationService;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -20,12 +19,7 @@ class RegisterController extends Controller
     
     use VerifiesUsers;
     
-    protected $activationService;
     
-    public function __construct(ActivationService $activationService)
-    {
-        $this->activationService = $activationService;
-    }
     
     public function showForm()
     {
