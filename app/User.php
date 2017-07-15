@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\CustomResetPassword;
+use App\Notifications\SendActivationEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -27,6 +28,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public function ActivationNotification($token)
+    {
+        
+        $this->notify(new SendActivationEmail($token));
+    } 
     
     public function sendPasswordResetNotification($token)
     {

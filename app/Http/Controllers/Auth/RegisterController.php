@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Logic\Auth\ActivationRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -42,9 +43,14 @@ class RegisterController extends Controller
 
         $this->guard()->login($user);
 
-        UserVerification::generate($user);
+        $activationRepostory = new ActivationRepository();
+       
+        $activationRepostory->createTokenAndSendEmail($user);
 
-        UserVerification::send($user, 'Nofiles Activation');
+        
+        //UserVerification::generate($user);
+
+        //UserVerification::send($user, 'Nofiles Activation');
 
         return $this->registered($request, $user)
                         ?: redirect()->route('activate');
@@ -81,5 +87,4 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
-    
 }
