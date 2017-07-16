@@ -10,9 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
-//Auth::routes();
     
 Route::get('/', ['middleware'=> 'guest', 'uses' => 'IndexController@showIndexPage'])->name('index_page');
 
@@ -29,8 +26,8 @@ Route::post('register', ['middleware' => ['guest'], 'uses' => 'Auth\RegisterCont
 // Activate
 Route::get('activate', ['middleware'=> ['auth', 'isNotVerified'], 'uses' => 'Auth\ActivateController@showPage'])->name('activate');
 Route::get('activate/send', ['middleware'=> ['auth', 'isNotVerified'], 'uses' => 'Auth\ActivateController@sendActivate'])->name('activate_send');
-Route::get('email-verification/error', 'Auth\VerificationConroller@getVerificationError')->name('email-verification.error');
-Route::get('email-verification/check/{token}', 'Auth\VerificationConroller@getVerification')->name('email-verification.check');
+Route::get('activate/check/{token}', 'Auth\ActivateController@activateUser')->name('activate_check');
+Route::get('activate/error', 'Auth\ActivateController@showError')->name('activate_error');
 
 // Password Reset Routes...
 Route::get('password/reset', 'Auth\ForgotPasswordController@showForm')->name('password.request');

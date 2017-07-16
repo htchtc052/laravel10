@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use DB;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use \App\User;
+use \App\Http\Controllers\Controller;
+use \App\Logic\Auth\ActivationService;
+use \App\Exceptions\ActivateUserNotFoundException;
 use Illuminate\Support\Facades\Validator;
-use Jrean\UserVerification\Facades\UserVerification;
-
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ActivateController extends Controller
 {
+    
+    public function __construct(ActivationService $activationService)
+    {
+        $this->activationService = $activationService;
+    }
     
     public function showPage()
     {
@@ -25,44 +30,42 @@ class ActivateController extends Controller
         
     }
     
+    public function showError()
+    {
+        $data = [
+            'title' => 'Activation',  
+            'pageclass' => 'activate_error',
+        ];  
+        
+        return view('auth.activate_error', $data);
+        
+    }
+    
     public function sendActivate()
     {
         $user = \Auth::user();
         
-        UserVerification::generate($user);
-        UserVerification::send($user, 'Activation NoFiles!');
+        $this->activationService->sendActivationMail($user);
         
         return redirect()->route('activate')->with('message', 'Activation link sended');
     }
     
-    public function activate($token)
+    public function activateUser($token)
     {
-        if (auth()->user()->activated) {
-
-            return redirect()->route('public.home')
-                ->with('status', 'success')
-                ->with('message', 'Your email is already activated.');
+        $email = Request::get('email');
+        
+        try {
+           $user = $this->activationService->activateUser($token, $email);
         }
-
-        $activation = Activation::where('token', $token)
-            ->where('user_id', auth()->user()->id)
-            ->first();
-
-        if (empty($activation)) {
-
-            return redirect()->route('public.home')
+        catch (\App\Exceptions\ActivateUserNotFoundException $e) {
+            return redirect()->route('activate_error')
                 ->with('status', 'Activation Error');
-
         }
-
-        auth()->user()->active = true;
-        auth()->user()->save();
-
-        $activation->delete();
-
+        
+        Auth::login($user);
+       
         return redirect()->route('home')
             ->with('status', 'You successfully activated your email!');
-
     }
-
+    
 }

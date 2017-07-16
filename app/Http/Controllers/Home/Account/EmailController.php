@@ -44,9 +44,7 @@ class EmailController extends Controller
         
         Validator::make($request->all(), $rules, $messages)->validate();
         
-        
-        
-        $this->resetEmail($user, $request->email);
+        dd($request->email);
         
         return redirect()->route('home')->with('status', "Password changed");
     }

@@ -9,18 +9,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
-use Jrean\UserVerification\Traits\VerifiesUsers;
-use Jrean\UserVerification\Facades\UserVerification;
-
+use App\Logic\Auth\ActivationService;
 
 class RegisterController extends Controller
 {
     
     use RegistersUsers;
     
-    use VerifiesUsers;
+    //use VerifiesUsers;
     
-    
+    public function __construct(ActivationService $activationService)
+    {
+        $this->activationService = $activationService;
+    }
     
     public function showForm()
     {
@@ -42,15 +43,8 @@ class RegisterController extends Controller
         event(new Registered($user));
 
         $this->guard()->login($user);
-
-        $activationRepostory = new ActivationRepository();
-       
-        $activationRepostory->createTokenAndSendEmail($user);
-
         
-        //UserVerification::generate($user);
-
-        //UserVerification::send($user, 'Nofiles Activation');
+        $this->activationService->sendActivationMail($user);
 
         return $this->registered($request, $user)
                         ?: redirect()->route('activate');

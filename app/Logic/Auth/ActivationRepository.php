@@ -2,28 +2,72 @@
 
 namespace App\Logic\Auth;
 
-use App\Models\Activation;
-use App\User;
+use Carbon\Carbon;
+use Illuminate\Database\Connection;
 
 class ActivationRepository
 {
 
-    public function createTokenAndSendEmail(User $user)
+    protected $db;
+
+    public function __construct(Connection $db)
     {
-        if ($user->verified) {
-            //if user changed activated email to new one
-            $user->update([
-                'verified' => false
-            ]);
+        $this->db = $db;
+    }
 
+    protected function getToken()
+    {
+        return hash_hmac('sha256', str_random(40), config('app.key'));
+    }
+
+    public function createActivation($user)
+    {
+
+        $activation = $this->getActivation($user);
+
+        if (!$activation) {
+            return $this->createToken($user);
         }
+        return $this->regenerateToken($user);
 
-        $activation = new Activation;
-        $activation->user_id = $user->id;
-        $activation->token = str_random(64);
-        $activation->save();
-        
-        $user->ActivationNotification($activation->token);
+    }
+
+    private function regenerateToken($user)
+    {
+
+        $token = $this->getToken();
+        $this->db->table("activations")->where('user_id', $user->id)->update([
+            'token' => $token,
+            'created_at' => new Carbon()
+        ]);
+        return $token;
+    }
+
+    private function createToken($user)
+    {
+        $token = $this->getToken();
+        $this->db->table("activations")->insert([
+            'user_id' => $user->id,
+            'token' => $token,
+            'created_at' => new Carbon()
+        ]);
+        return $token;
+    }
+
+    public function getActivation($user)
+    {
+        return $this->db->table("activations")->where('user_id', $user->id)->first();
+    }
+
+
+    public function getActivationByToken($token)
+    {
+        return $this->db->table("activations")->where('token', $token)->first();
+    }
+
+    public function deleteActivation($token)
+    {
+        $this->db->table("activations")->where('token', $token)->delete();
     }
 
 }
