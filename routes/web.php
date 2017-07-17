@@ -45,6 +45,7 @@ Route::get('home/account/password', ['middleware' => ['auth', 'isVerified'], 'us
 Route::post('home/account/password_save', ['middleware' => ['auth', 'isVerified'], 'uses' =>'Home\Account\PasswordController@saveForm'])->name('home.account.password_save');
 Route::get('home/account/email', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\EmailController@showForm'])->name('home.account.email');
 Route::post('home/account/email_save', ['middleware' => ['auth', 'isVerified'], 'uses' =>'Home\Account\EmailController@saveForm'])->name('home.account.email_save');
+Route::get('home/account/email_set/{token}', ['middleware' => ['auth', 'isVerified'], 'uses' =>'Home\Account\EmailController@emailSet'])->name('home.account.email_set');
 
 
 //infopages routes

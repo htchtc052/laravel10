@@ -4,36 +4,50 @@ namespace App\Logic\Home;
 
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
-use \App\Exceptions\ChangeEmailNotFoundException;
+use \App\Exceptions\EmailChangeNotFoundException;
+use \App\Mail\EmailChange;
 
-class ChangeEmailService
+class EmailChangeService
 {
 
     protected $mailer;
 
-    protected $changeEmailRepo;
+    protected $emailChangeRepo;
 
-    public function __construct(Mailer $mailer, ChangeEmailRepository $changeEmailRepo)
+    public function __construct(Mailer $mailer, EmailChangeRepository $emailChangeRepo)
     {
         $this->mailer = $mailer;
-        $this->changeEmailRepo = $changeEmailRepo;
+        $this->emailChangeRepo = $emailChangeRepo;
     }
 
-    public function sendChangeEmailMail($user)
+    public function sendChangeEmailMail($user, $email)
     {
-        $token = $this->changeEmailRepo->createChangeEmail($user);
+        $token = $this->emailChangeRepo->createEmailChange($user, $email);
         
-        $user->ChangeEmailNotification($token);
+        \Mail::to($email)->send(
+            new EmailChange(array(
+                'email' => $email,
+                'token' => $token,
+            ))
+        );
+        
+        
+        //Mail::to($email)->send({
+          //  new Verify_Email(array(
+            //    'email' => $email, 'token' => $token
+               // ))
+        //});
     }
     
-    public function changeUserEmail($token, $email)
+    public function setEmail($token, $email)
     {
-        $changeEmail = $this->changeEmailRepo->getChangeEmailByToken($token);
-
+        $changeEmail = $this->emailChangeRepo->getChangeEmailByTokenAndEmail($token, $email);
+        
         if ($changeEmail === null) {
             throw new ChangeEmailNotFoundException();
         }
-        $user = \App\User::find($activation->user_id);
+        
+        $user = \App\User::find($changeEmail->user_id);
         
         if (!$user) {
             throw new ChangeEmailNotFoundException();
@@ -43,7 +57,7 @@ class ChangeEmailService
 
         $user->save();
 
-        $this->changeEmailRepo->deleteChangeEmail($token);
+        $this->emailChangeRepo->deleteChangeEmail($token);
 
         return $user;
 

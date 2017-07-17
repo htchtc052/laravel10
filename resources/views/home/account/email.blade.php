@@ -2,7 +2,7 @@
 
 @section('cont')
      <h2>Profile</h2> 
-        <div class="indent-lg">Change password for your account.</div>
+        <div class="indent-lg">Change email for your account.</div>
             <form  action="{{ route('home.account.email_save') }}"  method="POST" id="setpass_form"  class="indent-lg">
                 {{ csrf_field() }}
                 <div class="row">

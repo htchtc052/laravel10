@@ -6,14 +6,13 @@ use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
 use \App\Exceptions\ActivateUserNotFoundException;
 
+
 class ActivationService
 {
 
     protected $mailer;
 
     protected $activationRepo;
-
-    protected $resendAfter = 24;
 
     public function __construct(Mailer $mailer, ActivationRepository $activationRepo)
     {

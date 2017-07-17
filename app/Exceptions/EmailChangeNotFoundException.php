@@ -4,9 +4,9 @@ namespace App\Exceptions;
 
 use Exception;
 
-class ActivateUserNotFoundException extends Exception
+class EmailChangeNotFoundException extends Exception
 {
-    protected $message = 'Wrong activaction link';
+    protected $message = 'Wrong change email link';
     
     public function report(Exception $exception)
     {

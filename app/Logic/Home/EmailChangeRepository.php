@@ -25,18 +25,18 @@ class EmailChangeRepository
         $email_change = $this->getEmailChange($user);
 
         if (!$email_change) {
-            return $this->createTokenAndEmail($user, $email);
+            return $this->createEmailChangeRecord($user, $email);
         }
         
-        return $this->regenerateTokenAndEmail($user, $email);
+        return $this->updateEmailChangeRecord($user, $email);
 
     }
     
-    private function regenerateTokenAndEmail($user, $email)
+    private function updateEmailChangeRecord($user, $email)
     {
         $token = $this->getToken();
         
-        $this->db->table("activations_change_email")->where('user_id', $user->id)->update([
+        $this->db->table("email_change")->where('user_id', $user->id)->update([
             'token' => $token,
             'email' => $email,
             'created_at' => new Carbon()
@@ -45,11 +45,11 @@ class EmailChangeRepository
         return $token;
     }
 
-    private function createTokenAndEmail($user)
+    private function createEmailChangeRecord($user, $email)
     {
         $token = $this->getToken();
         
-        $this->db->table("activations_change_email")->insert([
+        $this->db->table("email_change")->insert([
             'user_id' => $user->id,
             'token' => $token,
             'email' => $email,
@@ -59,20 +59,20 @@ class EmailChangeRepository
         return $token;
     }
 
-    public function getChangeEmail($user)
+    public function getEmailChange($user)
     {
-        return $this->db->table("activations_change_email")->where('user_id', $user->id)->first();
+        return $this->db->table("email_change")->where('user_id', $user->id)->first();
     }
 
 
-    public function getChangeEmailByToken($token)
+    public function getChangeEmailByTokenAndEmail($token, $email)
     {
-        return $this->db->table("activations_change_email")->where('token', $token)->first();
+        return $this->db->table("email_change")->where(array('token' => $token, 'email' => $email))->first();
     }
 
     public function deleteChangeEmail($token)
     {
-        $this->db->table("activations_change_email")->where('token', $token)->delete();
+        $this->db->table("email_change")->where('token', $token)->delete();
     }
 
 }

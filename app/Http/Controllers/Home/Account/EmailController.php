@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Home\Account;
 
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use \App\Logic\Home\EmailChangeService;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -13,6 +14,10 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class EmailController extends Controller
 {
+    public function __construct(EmailChangeService $emailChangeService)
+    {
+        $this->emailChangeService = $emailChangeService;
+    }
     
     public function showForm(Request $request)
     {
@@ -42,18 +47,29 @@ class EmailController extends Controller
         ];
         
         
-        Validator::make($request->all(), $rules, $messages)->validate();
+        Validator::make($request::all(), $rules, $messages)->validate();
         
-        dd($request->email);
+        $user = $this->emailChangeService->sendChangeEmailMail($user, Request::get('email'));
         
-        return redirect()->route('home')->with('status', "Password changed");
+        return redirect()->route('home')->with('status', "Confirmation change E-mail link send to ".Request::get('email'));
     }
     
-    protected function resetPassword($user, $email)
+    public function emailSet($token)
     {
-        $user->forceFill([
-            'password' => bcrypt($password),
-            'remember_token' => Str::random(60),
-        ])->save();
+        $email = Request::get('email');
+        
+        try {
+           $user = $this->emailChangeService->setEmail($token, $email);
+        }
+        catch (\App\Exceptions\EmailChangeNotFoundException $e) {
+            return redirect()->route('home')
+                ->with('status', 'Email change link error');
+        }
+        
+        Auth::login($user);
+       
+        return redirect()->route('home')
+            ->with('status', 'You successfully activated your email!');
     }
+  
 }
