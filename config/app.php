@@ -163,7 +163,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        Jrean\UserVerification\UserVerificationServiceProvider::class,
          /*
          * Package Service Providers...
          */
@@ -173,6 +172,10 @@ return [
         * Custom providers
         */
         App\Providers\CheckPasswordValidator::class,
+        App\Providers\ActivationEmailRepositoryServiceProvider::class,
+        App\Providers\ActivationEmailServiceProvider::class,
+        App\Providers\ChangeEmailRepositoryServiceProvider::class,
+        App\Providers\ChangeEmailServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -233,7 +236,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
 
     ],
 

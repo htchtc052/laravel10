@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use \App\User;
+use \App\Logic\Auth\ActivationEmailContract;
 use \App\Http\Controllers\Controller;
-use \App\Logic\Auth\ActivationService;
 use \App\Exceptions\ActivateUserNotFoundException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Request;
@@ -12,12 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ActivateController extends Controller
 {
-    
-    public function __construct(ActivationService $activationService)
-    {
-        $this->activationService = $activationService;
-    }
-    
     public function showPage()
     {
        
@@ -30,36 +24,25 @@ class ActivateController extends Controller
         
     }
     
-    public function showError()
-    {
-        $data = [
-            'title' => 'Activation',  
-            'pageclass' => 'activate_error',
-        ];  
-        
-        return view('auth.activate_error', $data);
-        
-    }
-    
-    public function sendActivate()
+    public function sendActivate(ActivationEmailContract $activationEmailService)
     {
         $user = \Auth::user();
         
-        $this->activationService->sendActivationMail($user);
+        $activationEmailService->sendActivationMail($user);
         
-        return redirect()->route('activate')->with('message', 'Activation link sended');
+        return redirect()->route('activate')->with('message', 'Activation link sended to email '.$user->email);
     }
     
-    public function activateUser($token)
+    public function activateUser($token, ActivationEmailContract $activationEmailService)
     {
         $email = Request::get('email');
         
         try {
-           $user = $this->activationService->activateUser($token, $email);
+           $user = $activationEmailService->activateUser($token, $email);
         }
         catch (\App\Exceptions\ActivateUserNotFoundException $e) {
-            return redirect()->route('activate_error')
-                ->with('status', 'Activation Error');
+            return redirect()->route('activate')
+                ->with('status', $e->getMessage());
         }
         
         Auth::login($user);

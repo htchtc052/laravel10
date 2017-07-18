@@ -11,16 +11,15 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use App\Logic\Home\ChangeEmailContract;
 
 class EmailController extends Controller
 {
-    public function __construct(EmailChangeService $emailChangeService)
+ 
+    public function showForm(Request $request, ChangeEmailContract $changeEmailService)
     {
-        $this->emailChangeService = $emailChangeService;
-    }
-    
-    public function showForm(Request $request)
-    {
+        dd($changeEmailService);
+        
         return view('home.account.email')->with([
                 'title' => 'Change email',
                 'pageclass' => 'home_account_email',
@@ -28,7 +27,7 @@ class EmailController extends Controller
         );
     }
     
-    public function saveForm(Request $request)
+    public function saveForm(Request $request, ChangeEmailContract $changeEmailService)
     {
         $user = Auth::user();
         
@@ -49,7 +48,7 @@ class EmailController extends Controller
         
         Validator::make($request::all(), $rules, $messages)->validate();
         
-        $user = $this->emailChangeService->sendChangeEmailMail($user, Request::get('email'));
+        $user = $changeEmailService->sendChangeEmailMail($user, Request::get('email'));
         
         return redirect()->route('home')->with('status', "Confirmation change E-mail link send to ".Request::get('email'));
     }

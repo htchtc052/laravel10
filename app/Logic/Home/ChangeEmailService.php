@@ -1,28 +1,27 @@
 <?php
 
-namespace App\Logic\Home;
+namespace App\Logic\Auth;
 
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
-use \App\Exceptions\EmailChangeNotFoundException;
-use \App\Mail\EmailChange;
+use \App\Exceptions\ActivateUserNotFoundException;
+use \App\Logic\Home\ChangeEmailRepositoryContract;
 
-class EmailChangeService
+class ChangeEmailService implements ChangeEmailContract
 {
 
     protected $mailer;
-
-    protected $emailChangeRepo;
-
-    public function __construct(Mailer $mailer, EmailChangeRepository $emailChangeRepo)
+    
+    protected $changeEmailRepo;
+    
+    public function __construct(ChangeEmailRepositoryContract $changeEmailRepo)
     {
-        $this->mailer = $mailer;
-        $this->emailChangeRepo = $emailChangeRepo;
+       $this->changeEmailRepo = $changeEmailRepo;
     }
-
+  
     public function sendChangeEmailMail($user, $email)
     {
-        $token = $this->emailChangeRepo->createEmailChange($user, $email);
+        $token = $this->changeEmailRepo->createEmailChange($user, $email);
         
         \Mail::to($email)->send(
             new EmailChange(array(
@@ -30,18 +29,11 @@ class EmailChangeService
                 'token' => $token,
             ))
         );
-        
-        
-        //Mail::to($email)->send({
-          //  new Verify_Email(array(
-            //    'email' => $email, 'token' => $token
-               // ))
-        //});
     }
     
     public function setEmail($token, $email)
     {
-        $changeEmail = $this->emailChangeRepo->getChangeEmailByTokenAndEmail($token, $email);
+        $changeEmail = $this->changeEmailRepo->getChangeEmailByTokenAndEmail($token, $email);
         
         if ($changeEmail === null) {
             throw new ChangeEmailNotFoundException();
@@ -57,11 +49,10 @@ class EmailChangeService
 
         $user->save();
 
-        $this->emailChangeRepo->deleteChangeEmail($token);
+        $this->changeEmailRepo->deleteChangeEmail($token);
 
         return $user;
 
     }
     
-
 }

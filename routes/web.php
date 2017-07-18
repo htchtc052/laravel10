@@ -27,7 +27,7 @@ Route::post('register', ['middleware' => ['guest'], 'uses' => 'Auth\RegisterCont
 Route::get('activate', ['middleware'=> ['auth', 'isNotVerified'], 'uses' => 'Auth\ActivateController@showPage'])->name('activate');
 Route::get('activate/send', ['middleware'=> ['auth', 'isNotVerified'], 'uses' => 'Auth\ActivateController@sendActivate'])->name('activate_send');
 Route::get('activate/check/{token}', 'Auth\ActivateController@activateUser')->name('activate_check');
-Route::get('activate/error', 'Auth\ActivateController@showError')->name('activate_error');
+//Route::get('activate/error', 'Auth\ActivateController@showError')->name('activate_error');
 
 // Password Reset Routes...
 Route::get('password/reset', 'Auth\ForgotPasswordController@showForm')->name('password.request');

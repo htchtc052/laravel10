@@ -9,19 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
-use App\Logic\Auth\ActivationService;
+use App\Logic\Auth\ActivationEmailContract;
 
 class RegisterController extends Controller
 {
     
     use RegistersUsers;
-    
-    //use VerifiesUsers;
-    
-    public function __construct(ActivationService $activationService)
-    {
-        $this->activationService = $activationService;
-    }
     
     public function showForm()
     {
@@ -34,18 +27,19 @@ class RegisterController extends Controller
         return view('auth.register', $data);
     }
 
-    public function saveForm(Request $request)
+    public function saveForm(Request $request, ActivationEmailContract $activationEmailService)
     {
         $this->validator($request->all())->validate();
-
+        
         $user = $this->create($request->all());
 
         event(new Registered($user));
 
         $this->guard()->login($user);
         
-        $this->activationService->sendActivationMail($user);
-
+        
+        $activationEmailService->sendActivationMail($user);
+        
         return $this->registered($request, $user)
                         ?: redirect()->route('activate');
     }

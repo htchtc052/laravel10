@@ -5,39 +5,31 @@ namespace App\Logic\Auth;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
 use \App\Exceptions\ActivateUserNotFoundException;
+use \App\Logic\Auth\ActivationEmailRepositoryContract;
 
-
-class ActivationService
+class ActivationEmailService implements ActivationEmailContract
 {
 
     protected $mailer;
-
-    protected $activationRepo;
-
-    public function __construct(Mailer $mailer, ActivationRepository $activationRepo)
+    
+    protected $activationEmailRepo;
+    
+    public function __construct(ActivationEmailRepositoryContract $activationEmailRepo)
     {
-        $this->mailer = $mailer;
-        $this->activationRepo = $activationRepo;
+       $this->activationEmailRepo = $activationEmailRepo;
     }
-
+  
     public function sendActivationMail($user)
     {
-        $token = $this->activationRepo->createActivation($user);
+        $token = $this->activationEmailRepo->createActivation($user);
         
         $user->ActivationNotification($token);
     }
     
-    public function sendChangeEmailMail($user)
-    {
-        $token = $this->activationRepo->createActivation($user);
-        
-        $user->ActivationNotification($token);
-    }
-
     public function activateUser($token, $email)
     {
-        $activation = $this->activationRepo->getActivationByToken($token);
-
+        $activation = $this->activationEmailRepo->getActivationByToken($token);
+         
         if ($activation === null) {
             throw new ActivateUserNotFoundException();
         }
@@ -51,7 +43,7 @@ class ActivationService
 
         $user->save();
 
-        $this->activationRepo->deleteActivation($token);
+        $this->activationEmailRepo->deleteActivation($token);
 
         return $user;
 
