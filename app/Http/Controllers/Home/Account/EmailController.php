@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Home\Account;
 
 
 use App\Http\Controllers\Controller;
-use \App\Logic\Home\EmailChangeService;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
@@ -16,9 +15,9 @@ use App\Logic\Home\ChangeEmailContract;
 class EmailController extends Controller
 {
  
-    public function showForm(Request $request, ChangeEmailContract $changeEmailService)
+    public function showForm(Request $request, \App\Logic\Auth\ChangeEmailContract $service)
     {
-        dd($changeEmailService);
+       dd($service);
         
         return view('home.account.email')->with([
                 'title' => 'Change email',

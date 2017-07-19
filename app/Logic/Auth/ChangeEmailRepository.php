@@ -4,32 +4,35 @@ namespace App\Logic\Home;
 
 use Carbon\Carbon;
 use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\DB;
 
-class EmailChangeRepository
+class ChangeEmailRepository
 {
-
-    protected $db;
-
-    public function __construct(Connection $db)
-    {
-        $this->db = $db;
-    }
-
-    protected function getToken()
-    {
-        return hash_hmac('sha256', str_random(40), config('app.key'));
-    }
-
     public function createEmailChange($user, $email)
     {
         $email_change = $this->getEmailChange($user);
-
+        
         if (!$email_change) {
             return $this->createEmailChangeRecord($user, $email);
         }
         
         return $this->updateEmailChangeRecord($user, $email);
-
+        
+    }
+    
+    public function getEmailChange($user)
+    {
+        return $this->db->table("email_change")->where('user_id', $user->id)->first();
+    }
+    
+    public function getChangeEmailByTokenAndEmail($token, $email)
+    {
+        return $this->db->table("email_change")->where(array('token' => $token, 'email' => $email))->first();
+    }
+    
+    public function deleteChangeEmail($token)
+    {
+        $this->db->table("email_change")->where('token', $token)->delete();
     }
     
     private function updateEmailChangeRecord($user, $email)
@@ -44,7 +47,12 @@ class EmailChangeRepository
         
         return $token;
     }
-
+    
+    private function getToken()
+    {
+        return hash_hmac('sha256', str_random(40), config('app.key'));
+    }
+    
     private function createEmailChangeRecord($user, $email)
     {
         $token = $this->getToken();
@@ -59,20 +67,6 @@ class EmailChangeRepository
         return $token;
     }
 
-    public function getEmailChange($user)
-    {
-        return $this->db->table("email_change")->where('user_id', $user->id)->first();
-    }
 
-
-    public function getChangeEmailByTokenAndEmail($token, $email)
-    {
-        return $this->db->table("email_change")->where(array('token' => $token, 'email' => $email))->first();
-    }
-
-    public function deleteChangeEmail($token)
-    {
-        $this->db->table("email_change")->where('token', $token)->delete();
-    }
 
 }

@@ -11,9 +11,11 @@ class ActivationEmailServiceProvider extends ServiceProvider
 
     public function register()
     {
-     
+       
         $this->app->bind('App\Logic\Auth\ActivationEmailContract', function ($app) {
+            dd(333);
             return new ActivationEmailService(
+            
                 $app -> make("App\Logic\Auth\ActivationEmailRepositoryContract")
             );
         });

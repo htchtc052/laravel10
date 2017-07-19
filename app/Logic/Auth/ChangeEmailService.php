@@ -4,8 +4,8 @@ namespace App\Logic\Auth;
 
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
-use \App\Exceptions\ActivateUserNotFoundException;
-use \App\Logic\Home\ChangeEmailRepositoryContract;
+use \App\Exceptions\ChangeUserNotFoundException;
+//use \App\Logic\Home\ChangeEmailRepositoryContract;
 
 class ChangeEmailService implements ChangeEmailContract
 {

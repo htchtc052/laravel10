@@ -171,12 +171,13 @@ return [
         /*
         * Custom providers
         */
-        App\Providers\CheckPasswordValidator::class,
+        App\Providers\ChangeEmailProvider::class,
+        App\Providers\ChangeEmailRepositoryProvider::class,
         App\Providers\ActivationEmailRepositoryServiceProvider::class,
         App\Providers\ActivationEmailServiceProvider::class,
-        App\Providers\ChangeEmailRepositoryServiceProvider::class,
-        App\Providers\ChangeEmailServiceProvider::class,
-
+ 
+        App\Providers\CheckPasswordValidator::class,
+       
         /*
          * Application Service Providers...
          */
