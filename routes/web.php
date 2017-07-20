@@ -27,7 +27,6 @@ Route::post('register', ['middleware' => ['guest'], 'uses' => 'Auth\RegisterCont
 Route::get('activate', ['middleware'=> ['auth', 'isNotVerified'], 'uses' => 'Auth\ActivateController@showPage'])->name('activate');
 Route::get('activate/send', ['middleware'=> ['auth', 'isNotVerified'], 'uses' => 'Auth\ActivateController@sendActivate'])->name('activate_send');
 Route::get('activate/check/{token}', 'Auth\ActivateController@activateUser')->name('activate_check');
-//Route::get('activate/error', 'Auth\ActivateController@showError')->name('activate_error');
 
 // Password Reset Routes...
 Route::get('password/reset', 'Auth\ForgotPasswordController@showForm')->name('password.request');
@@ -41,11 +40,11 @@ Route::get('home', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\inde
 Route::get('home/account', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\IndexController@showIndex'])->name('home.account');
 Route::get('home/account/update', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\UpdateController@showForm'])->name('home.account.update');
 Route::post('home/account/update_save', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\UpdateController@saveForm'])->name('home.account.update_save');
-Route::get('home/account/password', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\PasswordController@showForm'])->name('home.account.password');
-Route::post('home/account/password_save', ['middleware' => ['auth', 'isVerified'], 'uses' =>'Home\Account\PasswordController@saveForm'])->name('home.account.password_save');
-Route::get('home/account/email', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\EmailController@showForm'])->name('home.account.email');
-Route::post('home/account/email_save', ['middleware' => ['auth', 'isVerified'], 'uses' =>'Home\Account\EmailController@saveForm'])->name('home.account.email_save');
-Route::get('home/account/email_set/{token}', ['middleware' => ['auth', 'isVerified'], 'uses' =>'Home\Account\EmailController@emailSet'])->name('home.account.email_set');
+Route::get('home/account/password', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Auth\PasswordChangeController@showForm'])->name('home.account.password');
+Route::post('home/account/password_save', ['middleware' => ['auth', 'isVerified'], 'uses' =>'Auth\PasswordChangeController@saveForm'])->name('home.account.password_save');
+Route::get('home/account/email', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Auth\ChangeEmailController@showForm'])->name('home.account.email');
+Route::post('home/account/email_save', ['middleware' => ['auth', 'isVerified'], 'uses' =>'Auth\ChangeEmailController@saveForm'])->name('home.account.email_save');
+Route::get('home/account/email_set/{token}', ['middleware' => ['auth', 'isVerified'], 'uses' =>'Auth\ChangeEmailController@emailSet'])->name('home.account.email_set');
 
 
 //infopages routes

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Home\Account;
+namespace App\Http\Controllers\Auth;
 
 
 use App\Http\Controllers\Controller;
@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
-class PasswordController extends Controller
+class PasswordChangeController extends Controller
 {
     use ResetsPasswords;
     

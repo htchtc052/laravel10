@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Home\Account;
+namespace App\Http\Controllers\Auth;
 
 
 use App\Http\Controllers\Controller;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use App\Logic\Auth\ChangeEmailContract;
 
-class EmailController extends Controller
+class ChangeEmailController extends Controller
 {
  
     public function showForm(Request $request)
