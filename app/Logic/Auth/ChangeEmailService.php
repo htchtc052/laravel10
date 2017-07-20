@@ -4,8 +4,7 @@ namespace App\Logic\Auth;
 
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
-use \App\Exceptions\ChangeUserNotFoundException;
-//use \App\Logic\Home\ChangeEmailRepositoryContract;
+use \App\Exceptions\ChangeEmailNotFoundException;
 
 class ChangeEmailService implements ChangeEmailContract
 {
@@ -24,7 +23,7 @@ class ChangeEmailService implements ChangeEmailContract
         $token = $this->changeEmailRepo->createEmailChange($user, $email);
         
         \Mail::to($email)->send(
-            new EmailChange(array(
+            new \App\Mail\EmailChange(array(
                 'email' => $email,
                 'token' => $token,
             ))

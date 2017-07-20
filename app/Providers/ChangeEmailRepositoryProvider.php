@@ -12,7 +12,7 @@ class ChangeEmailRepositoryProvider extends ServiceProvider
     public function register()
     {
        
-        $this->app->bind('App\Logic\Auth\ChangeEmailRepository', function ($app) {
+        $this->app->bind('App\Logic\Auth\ChangeEmailRepositoryContract', function ($app) {
            
             return new ChangeEmailRepository();
         });

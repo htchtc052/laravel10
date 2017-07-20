@@ -8,7 +8,6 @@ Interface ChangeEmailRepositoryContract
     
     public function getChangeEmailByTokenAndEmail($token, $email);
     
-    public function deleteActivation($token);
     
     public function deleteChangeEmail($token);
 }

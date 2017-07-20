@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class EmailChangeNotFoundException extends Exception
+class ChangeEmailNotFoundException extends Exception
 {
     protected $message = 'Wrong change email link';
     

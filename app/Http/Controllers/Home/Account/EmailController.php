@@ -10,14 +10,13 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use App\Logic\Home\ChangeEmailContract;
+use App\Logic\Auth\ChangeEmailContract;
 
 class EmailController extends Controller
 {
  
-    public function showForm(Request $request, \App\Logic\Auth\ChangeEmailContract $service)
+    public function showForm(Request $request)
     {
-       dd($service);
         
         return view('home.account.email')->with([
                 'title' => 'Change email',
@@ -47,27 +46,27 @@ class EmailController extends Controller
         
         Validator::make($request::all(), $rules, $messages)->validate();
         
-        $user = $changeEmailService->sendChangeEmailMail($user, Request::get('email'));
+        $changeEmailService->sendChangeEmailMail($user, Request::get('email'));
         
         return redirect()->route('home')->with('status', "Confirmation change E-mail link send to ".Request::get('email'));
     }
     
-    public function emailSet($token)
+    public function emailSet($token, ChangeEmailContract $changeEmailService)
     {
         $email = Request::get('email');
         
         try {
-           $user = $this->emailChangeService->setEmail($token, $email);
+           $user = $changeEmailService->setEmail($token, $email);
         }
-        catch (\App\Exceptions\EmailChangeNotFoundException $e) {
+        catch (\App\Exceptions\ChangeEmailNotFoundException $e) {
             return redirect()->route('home')
-                ->with('status', 'Email change link error');
+                ->with('status', $e->getMessage());
         }
         
         Auth::login($user);
        
         return redirect()->route('home')
-            ->with('status', 'You successfully activated your email!');
+            ->with('status', 'You successfully activated your new email!');
     }
   
 }

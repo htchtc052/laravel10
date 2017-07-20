@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Logic\Home;
+namespace App\Logic\Auth;
 
 use Carbon\Carbon;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\DB;
 
-class ChangeEmailRepository
+class ChangeEmailRepository implements ChangeEmailRepositoryContract
 {
     public function createEmailChange($user, $email)
     {
@@ -22,24 +22,24 @@ class ChangeEmailRepository
     
     public function getEmailChange($user)
     {
-        return $this->db->table("email_change")->where('user_id', $user->id)->first();
+        return DB::table("email_change")->where('user_id', $user->id)->first();
     }
     
     public function getChangeEmailByTokenAndEmail($token, $email)
     {
-        return $this->db->table("email_change")->where(array('token' => $token, 'email' => $email))->first();
+        return DB::table("email_change")->where(array('token' => $token, 'email' => $email))->first();
     }
     
     public function deleteChangeEmail($token)
     {
-        $this->db->table("email_change")->where('token', $token)->delete();
+        DB::table("email_change")->where('token', $token)->delete();
     }
     
     private function updateEmailChangeRecord($user, $email)
     {
         $token = $this->getToken();
         
-        $this->db->table("email_change")->where('user_id', $user->id)->update([
+        DB::table("email_change")->where('user_id', $user->id)->update([
             'token' => $token,
             'email' => $email,
             'created_at' => new Carbon()
@@ -57,7 +57,7 @@ class ChangeEmailRepository
     {
         $token = $this->getToken();
         
-        $this->db->table("email_change")->insert([
+        DB::table("email_change")->insert([
             'user_id' => $user->id,
             'token' => $token,
             'email' => $email,
