@@ -1,0 +1,13 @@
+<?php
+
+namespace App\Contracts\Auth;
+
+
+Interface ChangeEmailContract
+{
+
+    public function sendChangeEmailMail($user, $email);
+    
+    public function setEmail($token, $email);
+    
+}

@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Logic\Auth;
+namespace App\Repositories\Auth;
 
+use \App\Contracts\Auth\ChangeEmailRepositoryContract;
 use Carbon\Carbon;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\DB;
+
 
 class ChangeEmailRepository implements ChangeEmailRepositoryContract
 {

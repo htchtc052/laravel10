@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Logic\Auth;
+namespace App\Services\Auth;
 
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
 use \App\Exceptions\ChangeEmailNotFoundException;
+use \App\Contracts\Auth\ChangeEmailContract;
+use \App\Contracts\Auth\ChangeEmailRepositoryContract;
 
 class ChangeEmailService implements ChangeEmailContract
 {

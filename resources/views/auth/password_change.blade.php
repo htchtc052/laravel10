@@ -9,14 +9,13 @@
                     <br> <a href="/home">To Profile</a>
                 </div>
             @else
-
+            {{--
                 @if (count($errors) > 0)
                         @foreach ($errors->all() as $error)
                         <div class="alert alert-danger">{{ $error }}</div>
                         @endforeach
                 @endif
-            
-            
+            --}}
             <form  action="{{ route('password.set') }}"  method="POST" id="setpass_form"  class="indent-lg">
                 {{ csrf_field() }}
                 <input type="hidden" name="token" value="{{ $token }}">
@@ -26,7 +25,11 @@
                      <div class="form-group">
                       <label class="sr-only" for="password">New password</label>
                       <input class="form-control"  type="password" id="password" placeholder="New password" name="password" value="" />
-                      
+                      @if ($errors->first('password'))
+                            <div class="alert alert-danger form_errors" style="display:block">
+                                {{ $errors->first('password') }}
+                            </div>
+                        @endif
                      </div>
                      <div class="form-group">
                       <label class="sr-only" for="confirm_password">Re-enter password</label>
@@ -44,5 +47,4 @@
                 </div>
              </form>
          @endif
-    
 @endsection 

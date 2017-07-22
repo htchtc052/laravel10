@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Logic\Auth;
+namespace App\Contracts\Auth;
 
-Interface ActivationEmailRepositoryContract
+Interface ActivateEmailRepositoryContract
 {
     public function createActivation($user);
 

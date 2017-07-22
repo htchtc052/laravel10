@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Logic\Auth;
+namespace App;
 
-
-Interface ActivationEmailContract
+Interface FooContract
 {
-
     public function sendActivationMail($user);
-    
+
     public function activateUser($token, $email);
     
 }

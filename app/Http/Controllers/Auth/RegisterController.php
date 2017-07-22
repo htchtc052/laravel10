@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\Logic\Auth\ActivationRepository;
-use App\Http\Controllers\Controller;
+use \App\User;
+//use \App\FooContract;
+use \App\Contracts\Auth\ActivateEmailContract;
+use \App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
-use App\Logic\Auth\ActivationEmailContract;
+
 
 class RegisterController extends Controller
 {
@@ -18,6 +19,7 @@ class RegisterController extends Controller
     
     public function showForm()
     {
+        
         $data = [
             'title' => 'Registration', 
             'pageclass' => 'register',
@@ -27,7 +29,7 @@ class RegisterController extends Controller
         return view('auth.register', $data);
     }
 
-    public function saveForm(Request $request, ActivationEmailContract $activationEmailService)
+    public function saveForm(Request $request, ActivateEmailContract $activateEmailService)
     {
         $this->validator($request->all())->validate();
         
@@ -37,12 +39,12 @@ class RegisterController extends Controller
 
         $this->guard()->login($user);
         
-        
-        $activationEmailService->sendActivationMail($user);
+        $activateEmailService->sendActivationMail($user);
         
         return $this->registered($request, $user)
                         ?: redirect()->route('activate');
     }
+
     
     protected function validator(array $data)
     {

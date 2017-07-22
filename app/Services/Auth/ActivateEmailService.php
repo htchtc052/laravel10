@@ -1,26 +1,31 @@
 <?php
 
-namespace App\Logic\Auth;
+namespace App\Services\Auth;
 
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
 use \App\Exceptions\ActivateUserNotFoundException;
-use \App\Logic\Auth\ActivationEmailRepositoryContract;
+use \App\Contracts\Auth\ActivateEmailContract;
+use \App\FooRepositoryContract;
 
-class ActivationEmailService implements ActivationEmailContract
+class ActivateEmailService implements \App\Contracts\Auth\ActivateEmailContract
 {
 
     protected $mailer;
     
     protected $activationEmailRepo;
     
-    public function __construct(ActivationEmailRepositoryContract $activationEmailRepo)
+    public function __construct(\App\Contracts\Auth\ActivateEmailRepositoryContract $activationEmailRepo)
     {
        $this->activationEmailRepo = $activationEmailRepo;
     }
-  
+    
     public function sendActivationMail($user)
     {
+        if (!$user || $user->verified) {
+            throw new ActivateUserNotFoundException();
+        }
+        
         $token = $this->activationEmailRepo->createActivation($user);
         
         $user->ActivationNotification($token);
@@ -48,5 +53,5 @@ class ActivationEmailService implements ActivationEmailContract
         return $user;
 
     }
-    
+  
 }

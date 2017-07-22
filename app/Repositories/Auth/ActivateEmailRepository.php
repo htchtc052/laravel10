@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Logic\Auth;
+namespace App\Repositories\Auth;
 
+use \App\Contracts\Auth\ActivateEmailRepositoryContract;
 use Carbon\Carbon;
+use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\DB;
 
-class ActivationEmailRepository implements ActivationEmailRepositoryContract
+
+class ActivateEmailRepository implements \App\Contracts\Auth\ActivateEmailRepositoryContract
 {
-    public function createActivation($user)
+  public function createActivation($user)
     {
 
         $activation = $this->getActivation($user);
@@ -64,5 +67,4 @@ class ActivationEmailRepository implements ActivationEmailRepositoryContract
     {
         DB::table("activations")->where('token', $token)->delete();
     }
-
 }

@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
-
 use App\Http\Controllers\Controller;
+use App\Contracts\Auth\ChangeEmailContract;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use App\Logic\Auth\ChangeEmailContract;
+
 
 class ChangeEmailController extends Controller
 {
- 
     public function showForm(Request $request)
     {
         

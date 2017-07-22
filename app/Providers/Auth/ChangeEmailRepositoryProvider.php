@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Providers;
+namespace App\Providers\Auth;
 
 use Illuminate\Support\ServiceProvider;
-use App\Logic\Auth\ChangeEmailRepository;
 
 class ChangeEmailRepositoryProvider extends ServiceProvider
 {
@@ -11,16 +10,14 @@ class ChangeEmailRepositoryProvider extends ServiceProvider
 
     public function register()
     {
-       
-        $this->app->bind('App\Logic\Auth\ChangeEmailRepositoryContract', function ($app) {
-           
-            return new ChangeEmailRepository();
+        $this->app->bind('\App\Contracts\Auth\ChangeEmailRepositoryContract', function ($app) {
+            return new \App\Repositories\Auth\ChangeEmailRepository();
         });
     }
 
     public function provides()
     {
-        return ['App\Logic\Auth\ChangeEmailRepository'];
+        return ['\App\Contracts\Auth\ChangeEmailRepositoryContract'];
         
     }
     
