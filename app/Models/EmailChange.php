@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class EmailChange extends Model
 {
+    protected $table = 'email_change';
     
     public function user()
     {

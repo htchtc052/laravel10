@@ -2,20 +2,21 @@
 
 namespace App\Services\Auth;
 
-use Illuminate\Mail\Mailer;
-use Illuminate\Mail\Message;
 use \App\Exceptions\ActivateUserNotFoundException;
 use \App\Contracts\Auth\ActivateEmailContract;
-use \App\FooRepositoryContract;
+use \App\Contracts\Auth\ActivateEmailRepositoryContract;
+use \App\Models\User;
+use Illuminate\Mail\Mailer;
+use Illuminate\Mail\Message;
 
-class ActivateEmailService implements \App\Contracts\Auth\ActivateEmailContract
+class ActivateEmailService implements ActivateEmailContract
 {
 
     protected $mailer;
     
     protected $activationEmailRepo;
     
-    public function __construct(\App\Contracts\Auth\ActivateEmailRepositoryContract $activationEmailRepo)
+    public function __construct(ActivateEmailRepositoryContract $activationEmailRepo)
     {
        $this->activationEmailRepo = $activationEmailRepo;
     }
@@ -28,7 +29,13 @@ class ActivateEmailService implements \App\Contracts\Auth\ActivateEmailContract
         
         $token = $this->activationEmailRepo->createActivation($user);
         
-        $user->ActivationNotification($token);
+        \Mail::to($user->email)->send(
+            new \App\Mail\ActivateEmail(array(
+                'email' => $user->email,
+                'token' => $token,
+            ))
+        );
+        
     }
     
     public function activateUser($token, $email)
@@ -38,7 +45,7 @@ class ActivateEmailService implements \App\Contracts\Auth\ActivateEmailContract
         if ($activation === null) {
             throw new ActivateUserNotFoundException();
         }
-        $user = \App\User::find($activation->user_id);
+        $user = User::find($activation->user_id);
         
         if (!$user) {
             throw new ActivateUserNotFoundException();

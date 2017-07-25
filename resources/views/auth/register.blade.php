@@ -21,7 +21,7 @@
                         <div class="form-group">
                             <label for="email" class="sr-only">E-Mail Address</label>
 
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
+                                <input id="email" class="form-control" name="email" value="{{ old('email') }}">
 
                                 @if ($errors->has('email'))
                                     <div class="alert alert-danger form_errors">{{ $errors->first('email') }}</div>

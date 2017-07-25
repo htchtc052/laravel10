@@ -2,11 +2,12 @@
 
 namespace App\Services\Auth;
 
-use Illuminate\Mail\Mailer;
-use Illuminate\Mail\Message;
-use \App\Exceptions\ChangeEmailNotFoundException;
+use \App\Models\User;
 use \App\Contracts\Auth\ChangeEmailContract;
 use \App\Contracts\Auth\ChangeEmailRepositoryContract;
+use \App\Exceptions\ChangeEmailNotFoundException;
+use Illuminate\Mail\Mailer;
+use Illuminate\Mail\Message;
 
 class ChangeEmailService implements ChangeEmailContract
 {
@@ -25,7 +26,7 @@ class ChangeEmailService implements ChangeEmailContract
         $token = $this->changeEmailRepo->createEmailChange($user, $email);
         
         \Mail::to($email)->send(
-            new \App\Mail\EmailChange(array(
+            new \App\Mail\ChangeEmail(array(
                 'email' => $email,
                 'token' => $token,
             ))
@@ -40,7 +41,7 @@ class ChangeEmailService implements ChangeEmailContract
             throw new ChangeEmailNotFoundException();
         }
         
-        $user = \App\User::find($changeEmail->user_id);
+        $user = User::find($changeEmail->user_id);
         
         if (!$user) {
             throw new ChangeEmailNotFoundException();

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use \App\User;
+use \App\Models\User;
 use \App\Contracts\Auth\ActivateEmailContract;
 use \App\Http\Controllers\Controller;
 use \App\Exceptions\ActivateUserNotFoundException;
@@ -26,7 +26,7 @@ class ActivateController extends Controller
     
     public function sendActivate(ActivateEmailContract $activateEmailService)
     {
-        $user = \Auth::user();
+        $user = Auth::user();
         
         $activateEmailService->sendActivationMail($user);
         

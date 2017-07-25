@@ -3,6 +3,7 @@
 namespace App\Repositories\Auth;
 
 use \App\Contracts\Auth\ActivateEmailRepositoryContract;
+use \App\Models\Activation;
 use Carbon\Carbon;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +32,7 @@ class ActivateEmailRepository implements \App\Contracts\Auth\ActivateEmailReposi
     {
         $token = $this->getToken();
         
-        DB::table("activations")->where('user_id', $user->id)->update([
+        Activation::where('user_id', $user->id)->update([
             'token' => $token,
             'created_at' => new Carbon()
         ]);
@@ -43,7 +44,7 @@ class ActivateEmailRepository implements \App\Contracts\Auth\ActivateEmailReposi
     {
         $token = $this->getToken();
         
-        DB::table("activations")->insert([
+        Activation::insert([
             'user_id' => $user->id,
             'token' => $token,
             'created_at' => new Carbon()
@@ -54,17 +55,17 @@ class ActivateEmailRepository implements \App\Contracts\Auth\ActivateEmailReposi
 
     public function getActivation($user)
     {
-        return DB::table("activations")->where('user_id', $user->id)->first();
+        return Activation::where('user_id', $user->id)->first();
     }
 
 
     public function getActivationByToken($token)
     {
-        return DB::table("activations")->where('token', $token)->first();
+        return Activation::where('token', $token)->first();
     }
 
     public function deleteActivation($token)
     {
-        DB::table("activations")->where('token', $token)->delete();
+        Activation::where('token', $token)->delete();
     }
 }

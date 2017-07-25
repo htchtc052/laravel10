@@ -3,6 +3,7 @@
 namespace App\Repositories\Auth;
 
 use \App\Contracts\Auth\ChangeEmailRepositoryContract;
+use \App\Models\EmailChange;
 use Carbon\Carbon;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\DB;
@@ -24,24 +25,24 @@ class ChangeEmailRepository implements ChangeEmailRepositoryContract
     
     public function getEmailChange($user)
     {
-        return DB::table("email_change")->where('user_id', $user->id)->first();
+        return EmailChange::where('user_id', $user->id)->first();
     }
     
     public function getChangeEmailByTokenAndEmail($token, $email)
     {
-        return DB::table("email_change")->where(array('token' => $token, 'email' => $email))->first();
+        return EmailChange::where(array('token' => $token, 'email' => $email))->first();
     }
     
     public function deleteChangeEmail($token)
     {
-        DB::table("email_change")->where('token', $token)->delete();
+        EmailChange::where('token', $token)->delete();
     }
     
     private function updateEmailChangeRecord($user, $email)
     {
         $token = $this->getToken();
         
-        DB::table("email_change")->where('user_id', $user->id)->update([
+        EmailChange::where('user_id', $user->id)->update([
             'token' => $token,
             'email' => $email,
             'created_at' => new Carbon()
@@ -59,7 +60,7 @@ class ChangeEmailRepository implements ChangeEmailRepositoryContract
     {
         $token = $this->getToken();
         
-        DB::table("email_change")->insert([
+        EmailChange::insert([
             'user_id' => $user->id,
             'token' => $token,
             'email' => $email,
