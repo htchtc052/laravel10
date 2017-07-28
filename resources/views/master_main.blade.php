@@ -22,7 +22,7 @@
             });
              </script>
   </head>
-<body class="{{$pageclass}} main">
+<body class="{{$pageclass}} main">  @@@
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container text-center">
          <div class="row">
