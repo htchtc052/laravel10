@@ -36,7 +36,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@saveForm')->name('pa
 
 
 //home routes
-Route::get('home', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\indexController@showIndex'])->name('home');
+Route::get('home', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\IndexController@showIndex'])->name('home');
 Route::get('home/account', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\IndexController@showIndex'])->name('home.account');
 Route::get('home/account/update', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\UpdateController@showForm'])->name('home.account.update');
 Route::post('home/account/update_save', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\UpdateController@saveForm'])->name('home.account.update_save');
