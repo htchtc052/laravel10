@@ -9,7 +9,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group">
-                            <label for="name" cclass="sr-only">Name</label>
+                            <label for="name">Name</label>
 
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}"  placeholder="Full name" autofocus>
 
@@ -19,7 +19,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="email" class="sr-only">E-Mail Address</label>
+                            <label for="email">E-Mail Address</label>
 
                                 <input id="email" class="form-control" name="email" value="{{ old('email') }}">
 
@@ -29,7 +29,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password" class="sr-only">Password</label>
+                            <label for="password">Password</label>
                                 <input id="password" type="password" class="form-control" name="password">
                                 @if ($errors->has('password'))
                                     <div class="alert alert-danger form_errors">{{ $errors->first('password') }}</div>
