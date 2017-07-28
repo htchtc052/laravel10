@@ -176,9 +176,7 @@ return [
         App\Providers\Auth\ChangeEmailProvider::class,
         App\Providers\Auth\ActivateEmailRepositoryProvider::class,
         App\Providers\Auth\ActivateEmailProvider::class,
-        App\FooRepositoryProvider::class,
-        App\FooProvider::class,
- 
+   
         App\Providers\CheckPasswordValidator::class,
        
         /*
