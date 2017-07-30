@@ -10,7 +10,7 @@
     <link href="/style/bootstrap-theme.css" rel="stylesheet">
         <link href="/style/font-awesome.css" rel="stylesheet">
     <link href="/style/favicon.ico" rel="shortcut icon" />
-        <script src="{{ asset('/js/jquery.js') }}" type="text/javascript" charset="utf-8"></script>    
+        <script src="{{ asset('/js/jquery.js') }}" type="text/javascript" charset="utf-8"></script>
         <script src="{{ asset('/js/jquery.form.js') }}" type="text/javascript" charset="utf-8"></script>
         <script src="/js/bootstrap.js"></script>
         <script src="/js/global_site.js"></script>
@@ -22,7 +22,7 @@
             });
              </script>
   </head>
-<body class="{{$pageclass}} main"> 
+<body class="{{$pageclass}} main">
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container text-center">
          <div class="row">
@@ -32,6 +32,8 @@
             <div class="col-xs-4 text-right">
             @if(Auth::user())
             <div class="dropdown user-box-holder pull-right">
+            <img src="/uploads/avatars/{{Auth::user()->id}}.jpg" border="0" />
+            <a href={{route('home.avatar')}}>Upload Avatar</a>
             <a data-toggle="dropdown" href="#">{{Auth::user()->name}}<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li class="dropdown-header">9.4 KB of 2 GB used</li>
@@ -55,7 +57,7 @@
             @endif
             </div>
          </div>
-            
+
       </div>
     </div>
    <div class="container">
@@ -90,7 +92,7 @@
                     NoFiles © 2016
                 </div>
             </div>
-        </div>  
+        </div>
     </footer>
     @if (isset($need_login_modal) && $need_login_modal)
    <script src="/js/login_modal.js"></script>
@@ -103,7 +105,7 @@
            <h4 class="modal-title">Sing in</h4>
          </div>
          <div class="modal-body">
-         
+
          <div class="row">
             <div class="col-xs-12">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -122,9 +124,9 @@
                             <input type="checkbox" name="remember" id="remember" /> Remember me
                      </label>
             </div>
-           
+
             </div>
-         
+
          </div>
      </div>
          <div class="modal-footer">
@@ -133,7 +135,7 @@
                   <a href="{{ route('password.request') }}">Forgotten your password?</a>
                </div>
                <div class="col-xs-4 text-right">
-                        <button type="submit" class="btn btn-success outline" id="loginmodal_sbtn">Sign in</button>    
+                        <button type="submit" class="btn btn-success outline" id="loginmodal_sbtn">Sign in</button>
                 </div>
             </div>
          </div>
@@ -142,6 +144,6 @@
      </div>
    </div>
    @endif
-   
+
 </body>
 </html>

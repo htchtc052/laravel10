@@ -167,18 +167,18 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
-        
+        Intervention\Image\ImageServiceProvider::class,
         /*
         * Custom providers
         */
-        
+
         App\Providers\Auth\ChangeEmailRepositoryProvider::class,
         App\Providers\Auth\ChangeEmailProvider::class,
         App\Providers\Auth\ActivateEmailRepositoryProvider::class,
         App\Providers\Auth\ActivateEmailProvider::class,
-   
+
         App\Providers\CheckPasswordValidator::class,
-       
+
         /*
          * Application Service Providers...
          */
@@ -187,7 +187,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        
+
 
     ],
 
@@ -238,6 +238,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 
