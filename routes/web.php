@@ -41,7 +41,7 @@ Route::get('home/account', ['middleware' => ['auth', 'isVerified'], 'uses' => 'H
 Route::get('home/account/update', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\UpdateController@showForm'])->name('home.account.update');
 Route::post('home/account/update_save', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\UpdateController@saveForm'])->name('home.account.update_save');
 
-Route::get('home/account/avatar', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\AvatarController@showForm'])->name('home.account.avatar1');
+Route::get('home/account/avatar', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\AvatarController@showForm'])->name('home.account.avatar');
 Route::post('home/account/avatar_save', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Home\Account\AvatarController@saveForm'])->name('home.account.avatar_save');
 
 Route::get('home/account/password', ['middleware' => ['auth', 'isVerified'], 'uses' => 'Auth\PasswordChangeController@showForm'])->name('home.account.password');
