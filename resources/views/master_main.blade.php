@@ -33,7 +33,7 @@
             @if(Auth::user())
             <div class="dropdown user-box-holder pull-right">
             <img src="/uploads/avatars/{{Auth::user()->id}}.jpg" border="0" />
-            <a href={{route('home.avatar')}}>Upload Avatar</a>
+            <a href={{route('home.account.avatar')}}>Upload Avatar</a>
             <a data-toggle="dropdown" href="#">{{Auth::user()->name}}<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li class="dropdown-header">9.4 KB of 2 GB used</li>
