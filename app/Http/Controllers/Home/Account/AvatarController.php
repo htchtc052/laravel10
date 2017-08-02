@@ -11,11 +11,15 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Input;
-use \Illuminate\Http\File;
+use MediaUploader;
+use Plank\Mediable\Exceptions\MediaUploadException;
 
 class AvatarController extends Controller {
-	public function showForm(Request $request) {
 
+    //use HandlesMediaUploadExceptions;
+
+
+	public function showForm(Request $request) {
 		return view('home.account.avatar', [
 			'title' => 'Home avatar',
 			'pageclass' => 'home_avatar',
@@ -27,29 +31,43 @@ class AvatarController extends Controller {
 
     if ($request -> hasFile('image_file')) {
 
-        $storage_path = Storage::disk('private')->putFile('avatars', Input::file('image_file'));
-        $storage_name = basename($storage_path);
-
-        //Storage::disk('avatars')->setVisibility($storage_path, 'private');
-
-                dd($storage_path, Storage::disk('private')->getVisibility($storage_path));
-
-        dd($storage_name);
+        try {
+            $media_origin = MediaUploader::fromSource($request->file('image_file'))
+            ->toDisk('private')
+            ->toDirectory('avatars')
+            ->onDuplicateIncrement()
+            ->useHashForFilename()
+            ->setAllowedAggregateTypes(['image'])
+            ->upload();
+        } catch(MediaUploadException $e) {
+            dd($e->getMessage());
+            //TO DO add message to log
+        }
 
         $image_resized = Image::make(Input::file('image_file'))->resize(null, 250, function ($constraint) {
             $constraint->aspectRatio();
         })->stream('jpg', 100);
 
-        $storage_name_resized = "resized_".$storage_name;
+        try {
+            $media_resized = MediaUploader::fromSource($image_resized)
+            ->toDisk('public')
+            ->toDirectory('avatars')
+            ->onDuplicateIncrement()
+            ->useHashForFilename()
+            ->upload();
+        } catch(MediaUploadException $e) {
+            dd($e->getMessage());
+            //TO DO add message to log
+        }
 
-        Storage::disk('avatars')->put($storage_name_resized, $image_resized);
-        //dd($storage_name, $storage_name_resized, $image_resized);
-        $user->avatar_origin_path = $storage_name;
-        $user->avatar_resized_path = $storage_name_resized;
+        $user->attachMedia($media_resized, 'avatar');
+        $user->attachMedia($media_origin, 'avatar_origin');
         $user->save();
+
+        dd($media_origin, $media_resized);
+
     }
         //$this->avatarValidator($request->all())->validate();
-
 
 		return redirect()->back()->with('status', "Changes saved");
 	}

@@ -52,12 +52,14 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
+            'prefix' => 'storage',
             'visibility' => 'public',
         ],
         'private' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
             'url' => env('APP_URL').'/storage_private',
+            'prefix' => 'storage_private',
             'visibility' => 'private',
         ],
         's3' => [
