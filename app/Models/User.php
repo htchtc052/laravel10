@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\CustomResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Plunk\Mediable\Mediable;
+use \Plunk\Mediable;
 class User extends Authenticatable
 {
     use Notifiable;
-    use Mediable;
+    use \Plank\Mediable\Mediable;
 
     protected $fillable = [
         'name', 'email', 'password',

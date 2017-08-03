@@ -29,7 +29,9 @@ class AvatarController extends Controller {
 
 	public function saveForm(Request $request, Authenticatable $user) {
 
-    if ($request -> hasFile('image_file')) {
+      $this->avatarValidator($request->all())->validate());
+
+
 
         try {
             $media_origin = MediaUploader::fromSource($request->file('image_file'))
@@ -66,19 +68,23 @@ class AvatarController extends Controller {
 
         dd($media_origin, $media_resized);
 
-    }
-        //$this->avatarValidator($request->all())->validate();
+
 
 		return redirect()->back()->with('status', "Changes saved");
 	}
 
 	protected function avatarValidator(array $data) {
-		$rules = [
-			'name' => 'required',
-		];
+
+        $rules = array(
+          'image_file' => 'mimes:jpeg,jpg,png,gif|required|max:10000' // max 10000kb
+        );
+
 
 		$messages = [
-			'name.required' => 'Please enter your name',
+			'image_file.required' => 'File not select',
+            'image_file.mimes' => 'File msut be jpg, png or gif format',
+            'image_file.max' => 'File too large. Maximum size 10Gb',
+
 		];
 
 		return Validator::make($data, $rules, $messages);
