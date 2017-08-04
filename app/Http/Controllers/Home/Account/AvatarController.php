@@ -8,32 +8,35 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Input;
 use MediaUploader;
 use Plank\Mediable\Exceptions\MediaUploadException;
 
 class AvatarController extends Controller {
 
-    //use HandlesMediaUploadExceptions;
+    public function showForm(Request $request) {
 
+        $user = Auth::user();
 
-	public function showForm(Request $request) {
-		return view('home.account.avatar', [
+        if($user->hasMedia('avatar')) {
+            $user_avatar_url = $user->getMedia('avatar')->first()->getUrl();
+        } else {
+            $user_avatar_url = null;
+        }
+
+        return view('home.account.avatar', [
 			'title' => 'Home avatar',
 			'pageclass' => 'home_avatar',
+            'avatar_url' => $user_avatar_url,
 		]);
 
 	}
 
-	public function saveForm(Request $request, Authenticatable $user) {
+	public function save(Request $request) {
 
-      $this->avatarValidator($request->all())->validate());
+      $this->avatarValidator($request->all())->validate();
 
-
-
-        try {
+       try {
             $media_origin = MediaUploader::fromSource($request->file('image_file'))
             ->toDisk('private')
             ->toDirectory('avatars')
@@ -42,11 +45,11 @@ class AvatarController extends Controller {
             ->setAllowedAggregateTypes(['image'])
             ->upload();
         } catch(MediaUploadException $e) {
-            dd($e->getMessage());
-            //TO DO add message to log
+            //dd($e->getMessage());
+            return redirect()->back()->with('error_msg', $e->getMessage());
         }
 
-        $image_resized = Image::make(Input::file('image_file'))->resize(null, 250, function ($constraint) {
+        $image_resized = Image::make($request->file('image_file'))->resize(null, 250, function ($constraint) {
             $constraint->aspectRatio();
         })->stream('jpg', 100);
 
@@ -58,19 +61,17 @@ class AvatarController extends Controller {
             ->useHashForFilename()
             ->upload();
         } catch(MediaUploadException $e) {
-            dd($e->getMessage());
-            //TO DO add message to log
+            //dd($e->getMessage());
+            return redirect()->back()->with('error_msg', $e->getMessage());
         }
 
-        $user->attachMedia($media_resized, 'avatar');
-        $user->attachMedia($media_origin, 'avatar_origin');
+        $user = Auth::user();
+
+        $user->syncMedia($media_resized, 'avatar');
+        $user->syncMedia($media_origin, 'avatar_origin');
         $user->save();
 
-        dd($media_origin, $media_resized);
-
-
-
-		return redirect()->back()->with('status', "Changes saved");
+		return redirect()->back()->with('msg', "Changes saved");
 	}
 
 	protected function avatarValidator(array $data) {
@@ -83,10 +84,24 @@ class AvatarController extends Controller {
 		$messages = [
 			'image_file.required' => 'File not select',
             'image_file.mimes' => 'File msut be jpg, png or gif format',
-            'image_file.max' => 'File too large. Maximum size 10Gb',
+            'image_file.max' => 'File too large. Maximum size 10M',
 
 		];
 
 		return Validator::make($data, $rules, $messages);
 	}
+
+    public function delete(Request $request) {
+        $user = Auth::user();
+
+        $media = $user->getMedia('avatar');
+        $user->detachMedia($media, 'avatar');
+
+        $media = $user->getMedia('avatar_origin');
+        $user->detachMedia($media, 'avatar_origin');
+
+        $user->save();
+
+        return redirect()->back()->with('msg', "Changes saved");
+    }
 }

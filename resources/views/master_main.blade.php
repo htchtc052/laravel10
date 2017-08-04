@@ -32,7 +32,9 @@
             <div class="col-xs-4 text-right">
             @if(Auth::user())
             <div class="dropdown user-box-holder pull-right">
+                    !!
             <img src="/uploads/avatars/{{Auth::user()->id}}.jpg" border="0" />
+
             <a href={{route('home.account.avatar')}}>Upload Avatar</a>
             <a data-toggle="dropdown" href="#">{{Auth::user()->name}}<span class="caret"></span></a>
                 <ul class="dropdown-menu">

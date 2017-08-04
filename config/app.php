@@ -180,6 +180,8 @@ return [
 
         App\Providers\CheckPasswordValidator::class,
 
+        App\Providers\MasterComposerProvider::class,
+
         /*
          * Application Service Providers...
          */

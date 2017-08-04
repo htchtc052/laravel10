@@ -5,9 +5,25 @@
    <div class="breadcrumbs">
       <a href="/home">Profile</a>
    </div>
-     <h1 class="indent-lg">Change your name</h1>
+     <h1 class="indent-lg">Upload your avatar</h1>
+             @if (session('error_msg'))
+                 <div class="alert">
+                     {{ session('error_msg') }}
+                 </div>
+             @endif
 
-            <div id="msg" class="form_msg" style="display:none;color:green;"></div>
+             @if (session('msg'))
+                 <div class="">
+                     {{ session('msg') }}
+                 </div>
+             @endif
+
+             @if ($avatar_url)
+                <img src="{{ $avatar_url }}" border="0" />
+             @else
+                <div>No image</div>
+             @endif
+
             <form  method="POST" action="{{ route('home.account.avatar_save') }}" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="row">
@@ -22,4 +38,8 @@
                   <button type="submit" class="btn btn-default" id="sbtn">Save</button>
             </form>
 
+            <form  method="POST" action="{{ route('home.account.avatar_delete') }}">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-danger" id="sbtn_delete" onclick="return confirm('sure delete?')">Delete Avatar</button>
+            </form>
 @endsection
