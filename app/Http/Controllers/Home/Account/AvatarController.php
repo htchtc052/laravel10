@@ -53,6 +53,7 @@ class AvatarController extends Controller {
             $constraint->aspectRatio();
         })->stream('jpg', 100);
 
+
         try {
             $media_resized = MediaUploader::fromSource($image_resized)
             ->toDisk('public')
