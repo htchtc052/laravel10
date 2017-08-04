@@ -19,7 +19,7 @@
              @endif
 
              @if ($avatar_url)
-                <img src="{{ $avatar_url }}" border="0" />
+             <img src="{{ $avatar_url }}" border="0" />
              @else
                 <div>No image</div>
              @endif

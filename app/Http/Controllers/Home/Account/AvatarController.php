@@ -49,7 +49,7 @@ class AvatarController extends Controller {
             return redirect()->back()->with('error_msg', $e->getMessage());
         }
 
-        $image_resized = Image::make($request->file('image_file'))->resize(null, 250, function ($constraint) {
+        $image_resized = Image::make($request->file('image_file'))->resize(null, 130, function ($constraint) {
             $constraint->aspectRatio();
         })->stream('jpg', 100);
 
