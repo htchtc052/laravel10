@@ -84,7 +84,7 @@ class AvatarController extends Controller {
 
 		$messages = [
 			'image_file.required' => 'File not select',
-            'image_file.mimes' => 'File msut be jpg, png or gif format',
+            'image_file.mimes' => 'File msut be jpg, jpeg, png or gif format',
             'image_file.max' => 'File too large. Maximum size 10M',
 
 		];
