@@ -45,8 +45,7 @@ class AvatarController extends Controller {
             ->setAllowedAggregateTypes(['image'])
             ->upload();
         } catch(MediaUploadException $e) {
-            //dd($e->getMessage());
-            return redirect()->back()->with('error_msg', $e->getMessage());
+             return redirect()->back()->with('error_msg', $e->getMessage());
         }
 
         $image_resized = Image::make($request->file('image_file'))->resize(null, 130, function ($constraint) {

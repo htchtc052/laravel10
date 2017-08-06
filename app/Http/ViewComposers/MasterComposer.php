@@ -16,15 +16,16 @@ class MasterComposer
 
     public function compose(View $view)
     {
-        $user = Auth::user();
 
+        $user_avatar_url = null;
+
+        $user = Auth::user();
         if ($user) {
             if($user->hasMedia('avatar')) {
                 $user_avatar_url = $user->getMedia('avatar')->first()->getUrl();
-            } else {
-                $user_avatar_url = null;
             }
         }
+
         $view->with('avatar_url', $user_avatar_url);
     }
 }
